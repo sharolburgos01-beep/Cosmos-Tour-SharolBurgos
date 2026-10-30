@@ -1,15 +1,17 @@
 'use strict';
 
 /* =============================================================================
-   COSMOS TOUR — SCRIPT PRINCIPAL (VANILLA JAVASCRIPT ES6+)
+   COSMOS TOUR — LÓGICA Y MODULARIZACIÓN (VANILLA JS)
    =============================================================================
    Descripción:
+   Sistema de telemetría, navegación interactiva y persistencia de datos. 
    Landing page inmersiva de turismo espacial de lujo. Este archivo implementa
    la totalidad de la lógica interactiva del sitio SIN frameworks ni librerías
    externas: validación de formulario, animaciones con Intersection Observer,
    contadores, tema claro/oscuro, selector de planeta, acordeón y filtros,
    física de microgravedad, parallax de cupola, simulador de lanzamiento,
    modal de destinos y generación de tarjeta de embarque.
+   Desarrollado para la materia Electiva UPTC
 
    Librerías externas (GSAP / AOS):
    NO se utilizan. Toda la animación se resuelve con APIs nativas del navegador:
