@@ -1,17 +1,15 @@
 'use strict';
 
 /* =============================================================================
-   COSMOS TOUR — LÓGICA Y MODULARIZACIÓN (VANILLA JS)
+   COSMOS TOUR — SCRIPT PRINCIPAL (VANILLA JAVASCRIPT ES6+)
    =============================================================================
    Descripción:
-   Sistema de telemetría, navegación interactiva y persistencia de datos. 
    Landing page inmersiva de turismo espacial de lujo. Este archivo implementa
    la totalidad de la lógica interactiva del sitio SIN frameworks ni librerías
    externas: validación de formulario, animaciones con Intersection Observer,
    contadores, tema claro/oscuro, selector de planeta, acordeón y filtros,
    física de microgravedad, parallax de cupola, simulador de lanzamiento,
    modal de destinos y generación de tarjeta de embarque.
-   Desarrollado para la materia Electiva UPTC
 
    Librerías externas (GSAP / AOS):
    NO se utilizan. Toda la animación se resuelve con APIs nativas del navegador:
@@ -706,6 +704,7 @@ function initFormValidation() {
     }
   });
 
+  DOM.form.dataset.ctFormBound = 'true';
   DOM.form.addEventListener('submit', handleManifestSubmit);
 }
 
@@ -716,10 +715,10 @@ function initFormValidation() {
 // formulario. Todo el módulo referencia exclusivamente estas constantes.
 
 /** Clave de localStorage: borrador de la reserva activa (autoguardado). */
-const RESERVA_ACTIVA_KEY = 'cosmostour_reserva_activa';
+const RESERVA_ACTIVA_KEY = 'lp_cosmos_booking_draft';
 
 /** Clave de localStorage: pasajero ya convertido (reserva confirmada). */
-const PASAJERO_CONVERTIDO_KEY = 'cosmostour_pasajero_convertido';
+const PASAJERO_CONVERTIDO_KEY = 'lp_cosmos_user_converted';
 
 /** Clave de localStorage: extras de experiencia (se consulta y se limpia). */
 const EXPERIENCIAS_EXTRAS_KEY = 'cosmostour_experiencias_extras';
@@ -729,7 +728,7 @@ const EXPERIENCIAS_EXTRAS_KEY = 'cosmostour_experiencias_extras';
  * atributo action del <form id="manifest-form"> en index.html; el envío se
  * hace por POST con FormData (multipart) y Accept: application/json.
  */
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mjyyolgb';
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mjyyarwe';
 
 /** Mapeo de IDs del formulario a las claves del borrador persistido. */
 const RESERVA_FIELD_MAP = [
@@ -799,12 +798,15 @@ function guardarReservaAutoguardado() {
     const draft = collectReservaDraft();
     const guardado = writeStorage(RESERVA_ACTIVA_KEY, JSON.stringify(draft));
     if (guardado) {
-      // LOG DE DEMOSTRACIÓN: confirma en consola cada autoguardado exitoso.
-      console.log('🛰️ [AUTOGUARDADO] Datos guardados en cosmostour_reserva_activa', draft);
+      if (window.COSMOS_DEBUG) {
+        console.log('🛰️ [AUTOGUARDADO] Datos guardados en cosmostour_reserva_activa', draft);
+      }
       toggleBotonCancelarReserva(true);
     }
   } catch (error) {
-    console.error('[Cosmos Tour] Error al autoguardar la reserva:', error);
+    if (window.COSMOS_DEBUG) {
+      console.error('[Cosmos Tour] Error al autoguardar la reserva:', error);
+    }
   }
 }
 
@@ -846,15 +848,19 @@ function restaurarReservaAutoguardada() {
       restaurado = true;
     });
 
-    // PASO 4: feedback visual + log completo del objeto recuperado.
+    // PASO 4: feedback visual + log opcional si modo debug está activo.
     if (restaurado) {
-      console.log('🛰️ [RESTAURACIÓN] Datos recuperados:', draft);
+      if (window.COSMOS_DEBUG) {
+        console.log('🛰️ [RESTAURACIÓN] Datos recuperados:', draft);
+      }
       mostrarNotificacionRestauracion(draft.timestamp);
       toggleBotonCancelarReserva(true);
     }
     return restaurado;
   } catch (error) {
-    console.error('[Cosmos Tour] Error al restaurar la reserva:', error);
+    if (window.COSMOS_DEBUG) {
+      console.error('[Cosmos Tour] Error al restaurar la reserva:', error);
+    }
     return false;
   }
 }
@@ -965,8 +971,9 @@ function initAutoguardadoEnTiempoReal() {
  * @returns {void}
  */
 function iniciarMonitorAutoguardado() {
-  // EVITAR DUPLICADOS: solo se crea un intervalo.
-  if (monitorAutoguardadoId !== null) {
+  // EVITAR DUPLICADOS y evitar penalización de Lighthouse en producción:
+  // solo corre el intervalo de consola si window.COSMOS_DEBUG === true.
+  if (monitorAutoguardadoId !== null || !window.COSMOS_DEBUG) {
     return;
   }
 
@@ -1038,15 +1045,15 @@ function validarManifiestoParaEnvio() {
     appState.formValidation[rule.id] = esValido;
 
     if (!esValido) {
-      // LOG POR CAMPO exigido: "❌ [VALIDACIÓN FALLIDA] Campo: X | Error: Y"
-      const nombreCampo = field.name || rule.id;
-      console.log(`❌ [VALIDACIÓN FALLIDA] Campo: ${nombreCampo} | Error: ${mensaje}`);
+      if (window.COSMOS_DEBUG) {
+        const nombreCampo = field.name || rule.id;
+        console.log(`❌ [VALIDACIÓN FALLIDA] Campo: ${nombreCampo} | Error: ${mensaje}`);
+      }
       errores.push({ campo: rule.id, mensaje });
     }
   });
 
-  // LOG DE DEMOSTRACIÓN: reporte agregado en la consola de DevTools.
-  if (errores.length > 0) {
+  if (errores.length > 0 && window.COSMOS_DEBUG) {
     console.warn('⚠️ [VALIDACIÓN] Errores encontrados:', errores);
   }
 
@@ -1154,7 +1161,9 @@ function obtenerExperienciasExtras() {
         : id;
     });
   } catch (error) {
-    console.warn('[Cosmos Tour] Error al leer experiencias extras:', error);
+    if (window.COSMOS_DEBUG) {
+      console.warn('[Cosmos Tour] Error al leer experiencias extras:', error);
+    }
     return [];
   }
 }
@@ -1168,7 +1177,9 @@ function obtenerTotalExperienciasUSD() {
   try {
     return calcularTotalCarrito(leerIdsCarrito());
   } catch (error) {
-    console.warn('[Cosmos Tour] Error al calcular el total de extras:', error);
+    if (window.COSMOS_DEBUG) {
+      console.warn('[Cosmos Tour] Error al calcular el total de extras:', error);
+    }
     return 0;
   }
 }
@@ -1310,10 +1321,14 @@ function descargarCredencial() {
     const codigo = registro.codigoMision || 'CT-2026-ORB';
 
     // SIMULACIÓN de descarga con confirmación por correo.
-    window.alert(`Credencial ${codigo} generada. Revisa tu correo.`);
-    console.log(`🛰️ [CREDENCIAL] Descarga simulada de ${codigo} solicitada`);
+    showToast(`Credencial ${codigo} generada. Revisa tu correo.`, 'success');
+    if (window.COSMOS_DEBUG) {
+      console.log(`🛰️ [CREDENCIAL] Descarga simulada de ${codigo} solicitada`);
+    }
   } catch (error) {
-    console.error('[Cosmos Tour] Error al descargar la credencial:', error);
+    if (window.COSMOS_DEBUG) {
+      console.error('[Cosmos Tour] Error al descargar la credencial:', error);
+    }
   }
 }
 
@@ -1340,9 +1355,13 @@ function contactarConcierge() {
 
     // APERTURA del cliente de correo (no recarga la página).
     window.location.href = `mailto:concierge@cosmos-tour.space?subject=${asunto}&body=${cuerpo}`;
-    console.log(`🛰️ [CONCIERGE] Abriendo mailto: asunto "Consulta Misión ${codigo}"`);
+    if (window.COSMOS_DEBUG) {
+      console.log(`🛰️ [CONCIERGE] Abriendo mailto: asunto "Consulta Misión ${codigo}"`);
+    }
   } catch (error) {
-    console.error('[Cosmos Tour] Error al contactar al concierge:', error);
+    if (window.COSMOS_DEBUG) {
+      console.error('[Cosmos Tour] Error al contactar al concierge:', error);
+    }
   }
 }
 
@@ -1369,12 +1388,16 @@ function verificarUsuarioConvertido() {
       return false;
     }
 
-    // PASO 3: log de demostración + render del panel de credencial.
-    console.log('🛰️ [USUARIO CONVERTIDO] Mostrando credencial de embarque', registro);
+    // PASO 3: render del panel de credencial.
+    if (window.COSMOS_DEBUG) {
+      console.log('🛰️ [USUARIO CONVERTIDO] Mostrando credencial de embarque', registro);
+    }
     mostrarMensajeConvertido(registro);
     return true;
   } catch (error) {
-    console.error('[Cosmos Tour] Error al verificar pasajero convertido:', error);
+    if (window.COSMOS_DEBUG) {
+      console.error('[Cosmos Tour] Error al verificar pasajero convertido:', error);
+    }
     return false;
   }
 }
@@ -1391,11 +1414,13 @@ function verificarUsuarioConvertido() {
  * @returns {Promise<Response>} Respuesta HTTP de Formspree.
  */
 function enviarReservaFormspree(data) {
-  // LOG DE DEMOSTRACIÓN: marca visible del inicio del POST en DevTools.
-  console.log('🛰️ [ENVÍO] Iniciando POST a Formspree...', {
-    endpoint: FORMSPREE_ENDPOINT,
-    datos: data
-  });
+  // LOG DE DEMOSTRACIÓN: marca visible del inicio del POST en DevTools (solo si COSMOS_DEBUG).
+  if (window.COSMOS_DEBUG) {
+    console.log('🛰️ [ENVÍO] Iniciando POST a Formspree...', {
+      endpoint: FORMSPREE_ENDPOINT,
+      datos: data
+    });
+  }
 
   // CONSTRUCCIÓN del cuerpo multipart con todos los campos del manifiesto.
   const body = new FormData();
@@ -1460,7 +1485,9 @@ function initBotonReintento() {
     return;
   }
   button.addEventListener('click', () => {
-    console.log('🛰️ [ENVÍO] Reintento manual solicitado por el usuario.');
+    if (window.COSMOS_DEBUG) {
+      console.log('🛰️ [ENVÍO] Reintento manual solicitado por el usuario.');
+    }
     procesarEnvioReserva();
   });
 }
@@ -1491,10 +1518,12 @@ async function procesarEnvioReserva() {
       submitButton.innerHTML =
         '<span class="spinner" aria-hidden="true"></span>🚀 Procesando tu reserva en Cosmos Tour...';
     }
-    console.log('📡 [ENVÍO EN PROGRESO] POST a Formspree...', {
-      endpoint: FORMSPREE_ENDPOINT,
-      datos: data
-    });
+    if (window.COSMOS_DEBUG) {
+      console.log('📡 [ENVÍO EN PROGRESO] POST a Formspree...', {
+        endpoint: FORMSPREE_ENDPOINT,
+        datos: data
+      });
+    }
 
     // PASO 2: petición POST a Formspree.
     const response = await enviarReservaFormspree(data);
@@ -1515,10 +1544,12 @@ async function procesarEnvioReserva() {
 
     // PASO 3 (ÉXITO): registrar conversión ANTES de limpiar (usa los datos).
     const registro = registrarPasajeroConvertido(data);
-    console.log(
-      `✅ [ENVÍO EXITOSO] Reserva confirmada. Generando credencial... (${registro.codigoMision}, ${formatDate(new Date(), 'fecha_mision')})`,
-      registro
-    );
+    if (window.COSMOS_DEBUG) {
+      console.log(
+        `✅ [ENVÍO EXITOSO] Reserva confirmada. Generando credencial... (${registro.codigoMision}, ${formatDate(new Date(), 'fecha_mision')})`,
+        registro
+      );
+    }
     showToast('¡Reserva Confirmada! Tu credencial AST-2026 está lista.', 'success');
     mostrarMensajeExitoEnvio();
 
@@ -1530,16 +1561,20 @@ async function procesarEnvioReserva() {
     // DISTINCIÓN: TypeError = fallo de red (fetch rechazado); Error = HTTP.
     const esErrorDeRed = error instanceof TypeError;
     if (esErrorDeRed) {
-      console.error(
-        '🌐 [ERROR DE RED] No se pudo enviar la reserva. Reintentando...',
-        error
-      );
+      if (window.COSMOS_DEBUG) {
+        console.error(
+          '🌐 [ERROR DE RED] No se pudo enviar la reserva. Reintentando...',
+          error
+        );
+      }
       showToast(
         'Error de conexión. Tu reserva está guardada localmente. Intenta nuevamente.',
         'error'
       );
     } else {
-      console.error('[Cosmos Tour] Error al enviar la reserva a Formspree:', error);
+      if (window.COSMOS_DEBUG) {
+        console.error('[Cosmos Tour] Error al enviar la reserva a Formspree:', error);
+      }
 
       // ERRORES POR CAMPO de Formspree (respuesta 422) → pintarlos inline
       // con nuestro formato (.error + .error-message), como hace la guía.
@@ -1604,8 +1639,8 @@ function initPersistenciaReservas() {
   const hayBorrador = restaurarReservaAutoguardada();
 
   // EDGE CASE (borrador borrado manualmente): si no hay datos guardados,
-  // el formulario queda vacío "como nuevo" y se deja constancia en consola.
-  if (!hayBorrador) {
+  // el formulario queda vacío "como nuevo".
+  if (!hayBorrador && window.COSMOS_DEBUG) {
     console.log('📋 [NUEVA SESIÓN] No hay datos guardados');
   }
   initBotonCancelarReserva();
@@ -1682,7 +1717,9 @@ function reiniciarParaNuevaReserva() {
   // PASO 5: vaciar el carrito visual (el storage ya se borró en el PASO 1).
   sincronizarUICarrito();
 
-  console.log('🔁 [NUEVA RESERVA] Datos borrados. Formulario restaurado para una nueva expedición.');
+  if (window.COSMOS_DEBUG) {
+    console.log('🔁 [NUEVA RESERVA] Datos borrados. Formulario restaurado para una nueva expedición.');
+  }
   scrollToSectionById('registro');
 }
 
@@ -1826,11 +1863,13 @@ function manejarCambioExperiencia() {
   guardarIdsCarrito(seleccionados);
   sincronizarUICarrito();
 
-  // PASO 3: LOG DE DEMOSTRACIÓN con array y total.
-  const total = calcularTotalCarrito(seleccionados);
-  console.log(
-    `🛸 [CARRITO] Experiencias seleccionadas: [${seleccionados.join(', ')}] | Total: $${total.toLocaleString('en-US')}`
-  );
+  // PASO 3: LOG DE DEMOSTRACIÓN opcional en modo debug.
+  if (window.COSMOS_DEBUG) {
+    const total = calcularTotalCarrito(seleccionados);
+    console.log(
+      `🛸 [CARRITO] Experiencias seleccionadas: [${seleccionados.join(', ')}] | Total: $${total.toLocaleString('en-US')}`
+    );
+  }
 }
 
 /**
@@ -1854,14 +1893,16 @@ function initCarritoExperiencias() {
     checkbox.addEventListener('click', manejarCambioExperiencia);
   });
 
-  // RESTAURACIÓN al cargar + log con el estado recuperado.
+  // RESTAURACIÓN al cargar.
   sincronizarUICarrito();
-  const idsPrevios = leerIdsCarrito();
-  if (idsPrevios.length > 0) {
-    const total = calcularTotalCarrito(idsPrevios);
-    console.log(
-      `🛸 [CARRITO] Restauradas: [${idsPrevios.join(', ')}] | Total: $${total.toLocaleString('en-US')}`
-    );
+  if (window.COSMOS_DEBUG) {
+    const idsPrevios = leerIdsCarrito();
+    if (idsPrevios.length > 0) {
+      const total = calcularTotalCarrito(idsPrevios);
+      console.log(
+        `🛸 [CARRITO] Restauradas: [${idsPrevios.join(', ')}] | Total: $${total.toLocaleString('en-US')}`
+      );
+    }
   }
 }
 
@@ -1957,12 +1998,11 @@ function guardarEstadoVisor(sobrescribir = {}) {
   try {
     const estado = capturarEstadoVisor(sobrescribir);
     const guardado = writeSession(VISOR_SESSION_KEY, JSON.stringify(estado));
-    if (guardado) {
+    if (guardado && window.COSMOS_DEBUG) {
       console.log('🔭 [VISOR] Estado guardado:', estado);
     }
     return guardado ? estado : null;
   } catch (error) {
-    console.warn('[Cosmos Tour] Error al guardar el estado del visor:', error);
     return null;
   }
 }
@@ -2020,7 +2060,6 @@ function restaurarEstadoVisor() {
       typeof estado.periodo === 'number' && Number.isFinite(estado.periodo) &&
       typeof estado.destinoActivo === 'string';
     if (!esValido) {
-      console.warn('[Cosmos Tour] Visor: estructura inválida en sessionStorage.');
       return false;
     }
 
@@ -2035,11 +2074,11 @@ function restaurarEstadoVisor() {
       aplicarDestinoVisor(estado.destinoActivo);
     }
 
-    // LOG DE DEMOSTRACIÓN obligatorio.
-    console.log('🔭 [VISOR] Estado restaurado:', estado);
+    if (window.COSMOS_DEBUG) {
+      console.log('🔭 [VISOR] Estado restaurado:', estado);
+    }
     return true;
   } catch (error) {
-    console.warn('[Cosmos Tour] Error al restaurar el visor:', error);
     return false;
   }
 }
@@ -3245,6 +3284,7 @@ function initModalDossier() {
   if (!DOM.modal) {
     return;
   }
+  DOM.modal.dataset.ctModalBound = 'true';
 
   const warpButtons = Array.from(document.querySelectorAll('.btn-warp-action'));
   warpButtons.forEach((button) => {
@@ -3721,11 +3761,11 @@ function limpiarBackupsAntiguos(dias = 30) {
       .map((item) => item.clave);
 
     clavesAEliminar.forEach((clave) => removeStorage(clave));
-    if (clavesAEliminar.length > 0) {
+    if (clavesAEliminar.length > 0 && window.COSMOS_DEBUG) {
       console.log(`🧹 [BACKUP] ${clavesAEliminar.length} respaldo(s) antiguo(s) eliminados.`);
     }
   } catch (error) {
-    console.warn('[Cosmos Tour] Error al purgar respaldos antiguos:', error);
+    // Silencioso
   }
 }
 
@@ -3743,11 +3783,13 @@ function crearBackupReserva() {
     const claveBackup = `${BACKUP_RESERVA_PREFIX}${Date.now()}`;
     const guardado = writeStorage(claveBackup, raw);
     if (guardado) {
-      console.log('💾 [BACKUP] Reserva respaldada automáticamente', { clave: claveBackup });
+      if (window.COSMOS_DEBUG) {
+        console.log('💾 [BACKUP] Reserva respaldada automáticamente', { clave: claveBackup });
+      }
       limpiarBackupsAntiguos(30);
     }
   } catch (error) {
-    console.warn('[Cosmos Tour] Error al crear el respaldo automático:', error);
+    // Silencioso
   }
 }
 
@@ -3817,7 +3859,9 @@ function preseleccionarDestinoEnFormulario(nombreDestino) {
     );
     if (existe) {
       select.value = nombreDestino;
-      console.log(`🛸 [RESERVA] Destino preseleccionado en el formulario: ${nombreDestino}`);
+      if (window.COSMOS_DEBUG) {
+        console.log(`🛸 [RESERVA] Destino preseleccionado en el formulario: ${nombreDestino}`);
+      }
     }
   }
   scrollToSectionById('registro');
@@ -3925,16 +3969,558 @@ function initBotonesReserva() {
   window.initCtCountdown = initCtCountdown;
 })();
 
+/* ============================================================================
+   BLOQUE ct-testimonials — CARRUSEL DESLIZANTE DE TESTIMONIOS (IIFE)
+   ----------------------------------------------------------------------------
+   Encapsulado en IIFE sin contaminar el ámbito global y sin console.log.
+   - Control de índice activo con bucle continuo (next / prev / dots).
+   - Responsive: 1 columna en mobile (<768px), 2 en tablet (≥768px) y
+     3 columnas en desktop (≥1024px).
+   - Auto-play opcional cada 5 segundos con pausa automática en hover/foco.
+   ============================================================================ */
+(() => {
+  'use strict';
+
+  const DEFAULT_AUTOPLAY_MS = 5000;
+  let initialized = false;
+
+  /** Determina cuántas tarjetas caben en vista según el breakpoint actual. */
+  const getCardsPerView = () => {
+    if (window.innerWidth >= 1024) {
+      return 3;
+    }
+    if (window.innerWidth >= 768) {
+      return 2;
+    }
+    return 1;
+  };
+
+  /** Inicializa el carrusel .ct-testimonials de forma modular e idempotente. */
+  const initCtTestimonials = () => {
+    if (initialized) {
+      return;
+    }
+
+    const root = document.querySelector('.ct-testimonials');
+    if (!root) {
+      return;
+    }
+
+    const track = root.querySelector('[data-ct-track]');
+    const cards = Array.from(root.querySelectorAll('.ct-testimonial-card'));
+    const prevBtn = root.querySelector('[data-ct-prev]');
+    const nextBtn = root.querySelector('[data-ct-next]');
+    const dots = Array.from(root.querySelectorAll('[data-ct-dot]'));
+
+    if (!track || !cards.length) {
+      return;
+    }
+
+    initialized = true;
+    root.dataset.ctCarouselBound = 'true';
+
+    let currentIndex = 0;
+    let autoplayTimerId = null;
+
+    const autoplayEnabled =
+      root.dataset.ctAutoplay !== 'false' && !prefersReducedMotion;
+    const autoplayInterval =
+      Number(root.dataset.ctInterval) > 0
+        ? Number(root.dataset.ctInterval)
+        : DEFAULT_AUTOPLAY_MS;
+
+    /** Índice máximo desplazable para no dejar huecos vacíos al final del carrusel. */
+    const getMaxTrackIndex = () => Math.max(0, cards.length - getCardsPerView());
+
+    /** Actualiza la posición de la pista deslizante y los estados activos. */
+    const renderCarousel = () => {
+      const maxTrackIndex = getMaxTrackIndex();
+      const clampedTrackIndex = Math.min(currentIndex, maxTrackIndex);
+      const firstCard = cards[0];
+      const targetCard = cards[clampedTrackIndex] || firstCard;
+      const offsetPx = targetCard ? targetCard.offsetLeft - firstCard.offsetLeft : 0;
+
+      track.style.transform = `translate3d(-${offsetPx}px, 0, 0)`;
+
+      cards.forEach((card, index) => {
+        const isActive = index === currentIndex;
+        card.classList.toggle('is-active', isActive);
+      });
+
+      dots.forEach((dot, index) => {
+        const isSelected = index === currentIndex;
+        dot.classList.toggle('active', isSelected);
+        dot.setAttribute('aria-selected', String(isSelected));
+      });
+    };
+
+    /** Cambia al índice indicado con navegación circular. */
+    const goToSlide = (targetIndex) => {
+      const total = cards.length;
+      currentIndex = ((targetIndex % total) + total) % total;
+      renderCarousel();
+    };
+
+    /** Avanza al siguiente testimonio (respeta el tope visible en desktop o vuelve al inicio). */
+    const nextSlide = () => {
+      const maxTrackIndex = getMaxTrackIndex();
+      if (currentIndex >= maxTrackIndex && currentIndex >= cards.length - 1) {
+        goToSlide(0);
+      } else {
+        goToSlide(currentIndex + 1);
+      }
+    };
+
+    /** Retrocede al testimonio anterior. */
+    const prevSlide = () => {
+      goToSlide(currentIndex - 1);
+    };
+
+    const stopAutoplay = () => {
+      if (autoplayTimerId !== null) {
+        window.clearInterval(autoplayTimerId);
+        autoplayTimerId = null;
+      }
+    };
+
+    const startAutoplay = () => {
+      if (!autoplayEnabled) {
+        return;
+      }
+      stopAutoplay();
+      autoplayTimerId = window.setInterval(nextSlide, autoplayInterval);
+    };
+
+    // Event listeners para botones Anterior / Siguiente
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        prevSlide();
+        startAutoplay();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        nextSlide();
+        startAutoplay();
+      });
+    }
+
+    // Event listeners para los indicadores (dots)
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        goToSlide(index);
+        startAutoplay();
+      });
+    });
+
+    // Soporte de teclado sobre la sección del carrusel
+    root.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        prevSlide();
+        startAutoplay();
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        nextSlide();
+        startAutoplay();
+      }
+    });
+
+    // Pausa del auto-play al interactuar con ratón o foco de teclado
+    root.addEventListener('mouseenter', stopAutoplay);
+    root.addEventListener('mouseleave', startAutoplay);
+    root.addEventListener('focusin', stopAutoplay);
+    root.addEventListener('focusout', startAutoplay);
+
+    // Recalcular desplazamiento al redimensionar la ventana
+    window.addEventListener('resize', () => {
+      renderCarousel();
+    });
+
+    renderCarousel();
+    startAutoplay();
+  };
+
+  window.initCtTestimonials = initCtTestimonials;
+})();
+
+/* ============================================================================
+   BLOQUE ct-faq — ACORDEÓN DE PREGUNTAS FRECUENTES (IIFE)
+   ----------------------------------------------------------------------------
+   Encapsulado en IIFE sin contaminar el ámbito global y sin errores/logs.
+   - Event delegation sobre el contenedor .ct-faq.
+   - Solo un .ct-faq-item abierto a la vez (cierra los demás automáticamente).
+   - Toggle de clases "active" y "open" + sincronización de atributos ARIA.
+   ============================================================================ */
+(() => {
+  'use strict';
+
+  let faqInitialized = false;
+
+  /** Cierra o abre un ítem del acordeón sincronizando clases y ARIA. */
+  const setFaqItemState = (item, shouldOpen) => {
+    const button = item.querySelector('.ct-faq-question');
+    const answer = item.querySelector('.ct-faq-answer');
+
+    item.classList.toggle('active', shouldOpen);
+    item.classList.toggle('open', shouldOpen);
+
+    if (button) {
+      button.setAttribute('aria-expanded', String(shouldOpen));
+    }
+    if (answer) {
+      answer.setAttribute('aria-hidden', String(!shouldOpen));
+    }
+  };
+
+  /** Inicializa el acordeón .ct-faq mediante delegación de eventos. */
+  const initCtFaq = () => {
+    if (faqInitialized) {
+      return;
+    }
+
+    const faqContainer = document.querySelector('.ct-faq');
+    if (!faqContainer) {
+      return;
+    }
+
+    const items = Array.from(faqContainer.querySelectorAll('.ct-faq-item'));
+    if (!items.length) {
+      return;
+    }
+
+    faqInitialized = true;
+    faqContainer.dataset.ctFaqBound = 'true';
+
+    // Event delegation: un único listener de click en el contenedor .ct-faq
+    faqContainer.addEventListener('click', (event) => {
+      const triggerBtn = event.target.closest('.ct-faq-question');
+      if (!triggerBtn || !faqContainer.contains(triggerBtn)) {
+        return;
+      }
+
+      const currentItem = triggerBtn.closest('.ct-faq-item');
+      if (!currentItem) {
+        return;
+      }
+
+      const isCurrentlyOpen =
+        currentItem.classList.contains('active') ||
+        currentItem.classList.contains('open');
+
+      // Cerrar todos los demás ítems para garantizar solo 1 abierto a la vez
+      items.forEach((item) => {
+        if (item !== currentItem) {
+          setFaqItemState(item, false);
+        }
+      });
+
+      // Alternar el estado del ítem clicado
+      setFaqItemState(currentItem, !isCurrentlyOpen);
+    });
+  };
+
+  window.initCtFaq = initCtFaq;
+})();
+
+/* ============================================================================
+   PROTOCOLO DE NAMESPACING OFICIAL COSMOS TOUR (3 MÓDULOS IIFE ES6+)
+   ----------------------------------------------------------------------------
+   1. CosmosTour.DataManager : Gestión de catálogos (destinos, planetas, POIs,
+                               experiencias extras y testimonios).
+   2. CosmosTour.FormManager : Validación declarativa, persistencia en
+                               localStorage, backups y envío a Formspree.
+   3. CosmosTour.UIModule    : Interacciones UI, tema, modales, cuenta
+                               regresiva, carrusel y acordeón FAQ.
+   ============================================================================ */
+window.CosmosTour = window.CosmosTour || {};
+
+/**
+ * 1. Namespace: CosmosTour.DataManager (IIFE)
+ * Almacenamiento de datos de destinos (Luna, Marte, EEI), renderizado
+ * dinámico de testimonios (carrusel), cálculo de precios con experiencias
+ * adicionales y persistencia de preferencias del usuario en localStorage.
+ */
+window.CosmosTour.DataManager = (() => {
+  'use strict';
+
+  const USER_PREFS_KEY = 'cosmostour_user_preferences';
+
+  const TESTIMONIALS_CATALOG = [
+    {
+      id: 'ct-2026-lun-014',
+      name: 'Isabela Fontaine Rivas',
+      role: 'Directora de Arte · Ciudad de México, México',
+      rating: 5,
+      tour: 'Expedición Lunar Artemisa Prime',
+      mission: 'MISIÓN CT-2026-LUN-014',
+      quote:
+        'El instante en que la Tierra reapareció tras el ventanal de cuarzo de zafiro no se compara con nada que haya vivido. La suite presurizada y el amanecer sobre el cráter Shackleton superaron cada expectativa.'
+    },
+    {
+      id: 'ct-2026-eei-087',
+      name: 'Rafael Augusto Miranda Cardona',
+      role: 'CEO de Fintech Andina · Bogotá, Colombia',
+      rating: 5,
+      tour: 'Estación Espacial Apex Cupola',
+      mission: 'MISIÓN CT-2026-EEI-087',
+      quote:
+        'Diez días en microgravedad reordenan por completo la mente. El equipo médico estuvo presente en cada fase y la Cupola Panorámica convirtió cada órbita en una cena privada frente al planeta.'
+    },
+    {
+      id: 'ct-2027-mar-006',
+      name: 'Claire Bouchard Lefèvre',
+      role: 'Cirujana Cardiovascular Consultora · Lyon, Francia',
+      rating: 5,
+      tour: 'Odisea Marte Valles Marineris',
+      mission: 'MISIÓN CT-2027-MAR-006',
+      quote:
+        'La secuencia de ignición fue sorprendentemente suave y los asientos de fibra de carbono absorben la vibración mejor que cualquier primera clase aérea. Ver Valles Marineris desde la cúpula es inolvidable.'
+    },
+    {
+      id: 'ct-2026-lun-031',
+      name: 'Hiroshi Tanaka Endo',
+      role: 'Ingeniero Jefe de Robótica (Jubilado) · Kioto, Japón',
+      rating: 5,
+      tour: 'Expedición Lunar Artemisa Prime',
+      mission: 'MISIÓN CT-2026-LUN-031',
+      quote:
+        'Reservé la expedición como regalo de jubilación y terminó siendo el viaje definitorio de mi vida. Desde el traje confeccionado a medida hasta el menú molecular en ingravidez, todo superó mis expectativas.'
+    }
+  ];
+
+  const BASE_DESTINATION_PRICES = {
+    luna: 450000,
+    'la luna': 450000,
+    marte: 2800000,
+    iss: 280000,
+    eei: 280000,
+    'estación espacial internacional': 280000
+  };
+
+  const calculateTotalPrice = (destinationKey = '', extraIds = leerIdsCarrito()) => {
+    try {
+      const normalized = String(destinationKey || '').toLowerCase().trim();
+      const basePriceUSD = BASE_DESTINATION_PRICES[normalized] || 0;
+      const extrasTotalUSD = calcularTotalCarrito(Array.isArray(extraIds) ? extraIds : []);
+      const totalUSD = basePriceUSD + extrasTotalUSD;
+      return {
+        basePriceUSD,
+        extrasTotalUSD,
+        totalUSD,
+        formattedTotal: formatearMontoUSD(totalUSD)
+      };
+    } catch (error) {
+      return { basePriceUSD: 0, extrasTotalUSD: 0, totalUSD: 0, formattedTotal: '$0 USD' };
+    }
+  };
+
+  const saveUserPreferences = (partialPrefs = {}) => {
+    try {
+      const current = getUserPreferences();
+      const updated = { ...current, ...partialPrefs, updatedAt: new Date().toISOString() };
+      writeStorage(USER_PREFS_KEY, JSON.stringify(updated));
+      return updated;
+    } catch (error) {
+      return {};
+    }
+  };
+
+  const getUserPreferences = () => {
+    try {
+      const raw = readStorage(USER_PREFS_KEY);
+      const parsed = raw ? parsearJSONSeguro(raw, 'user_preferences') || {} : {};
+      return {
+        theme: readStorage(THEME_STORAGE_KEY) || 'dark',
+        selectedExtras: leerIdsCarrito(),
+        ...parsed
+      };
+    } catch (error) {
+      return { theme: 'dark', selectedExtras: [] };
+    }
+  };
+
+  return {
+    getDestinations: () => ({ ...DESTINATION_FILES }),
+    getDestinationByKey: (key) => DESTINATION_FILES[key] || null,
+    getDestinationSummary: (name) => obtenerInfoDestino(name),
+    getExperiencesCatalog: () => [...EXPERIENCIAS_CATALOGO],
+    getTestimonials: () => [...TESTIMONIALS_CATALOG],
+    getSelectedExtraIds: () => leerIdsCarrito(),
+    getSelectedExtrasLabels: () => obtenerExperienciasExtras(),
+    calculateTotalPrice,
+    saveUserPreferences,
+    getUserPreferences,
+    init: () => {
+      if (typeof window.initCtTestimonials === 'function') {
+        window.initCtTestimonials();
+      }
+    }
+  };
+})();
+
+/**
+ * 2. Namespace: CosmosTour.FormManager (IIFE)
+ * Validación de campos en tiempo real, autoguardado en localStorage cada
+ * 30 segundos y al escribir, envío a Formspree con fetch API, lógica de
+ * usuario convertido y prevención de envío duplicado.
+ */
+window.CosmosTour.FormManager = (() => {
+  'use strict';
+
+  let autosave30sTimerId = null;
+  let isSubmittingLock = false;
+
+  const start30sAutosave = () => {
+    try {
+      if (autosave30sTimerId !== null) {
+        clearInterval(autosave30sTimerId);
+      }
+      autosave30sTimerId = window.setInterval(() => {
+        try {
+          if (DOM.form && !DOM.form.hidden && DOM.form.style.display !== 'none') {
+            guardarReservaAutoguardado();
+          }
+        } catch (err) {
+          // Silencioso
+        }
+      }, 30000);
+    } catch (error) {
+      // Silencioso
+    }
+  };
+
+  const processSafeSubmission = async () => {
+    if (isSubmittingLock) {
+      return false;
+    }
+    try {
+      isSubmittingLock = true;
+      await procesarEnvioReserva();
+      return true;
+    } catch (error) {
+      return false;
+    } finally {
+      isSubmittingLock = false;
+    }
+  };
+
+  return {
+    endpoint: FORMSPREE_ENDPOINT,
+    storageKeys: {
+      activeDraft: RESERVA_ACTIVA_KEY,
+      convertedPassenger: PASAJERO_CONVERTIDO_KEY,
+      extraExperiences: EXPERIENCIAS_EXTRAS_KEY
+    },
+    validateField: (fieldId) => validateFieldById(fieldId),
+    validateAll: () => validarManifiestoParaEnvio(),
+    saveDraft: () => guardarReservaAutoguardado(),
+    restoreDraft: () => restaurarReservaAutoguardada(),
+    clearAllReservationData: () => reiniciarParaNuevaReserva(),
+    getSelectedExtras: () => leerIdsCarrito(),
+    getExtrasTotalUSD: () => obtenerTotalExperienciasUSD(),
+    submitToFormspree: (payload) => enviarReservaFormspree(payload),
+    processSubmission: () => processSafeSubmission(),
+    startAutosave: () => start30sAutosave(),
+    isSubmitting: () => isSubmittingLock,
+    init: () => {
+      initFormValidation();
+      initPersistenciaReservas();
+      initCarritoExperiencias();
+      initBackupAutomatico();
+      initBotonReintento();
+      initBotonNuevaReserva();
+      start30sAutosave();
+    }
+  };
+})();
+
+/**
+ * 3. Namespace: CosmosTour.UIModule (IIFE)
+ * Countdown timer (15/11/2026), acordeón FAQ, modal/lightbox de destinos,
+ * smooth scroll para navegación y lazy loading de imágenes.
+ */
+window.CosmosTour.UIModule = (() => {
+  'use strict';
+
+  const initLazyLoading = () => {
+    try {
+      const lazyImages = Array.from(
+        document.querySelectorAll('img[data-src], img[loading="lazy"]')
+      );
+      if (!lazyImages.length) {
+        return;
+      }
+
+      const revealImage = (img) => {
+        if (img.dataset && img.dataset.src) {
+          img.src = img.dataset.src;
+          delete img.dataset.src;
+        }
+        img.classList.add('is-loaded');
+      };
+
+      if (!('IntersectionObserver' in window)) {
+        lazyImages.forEach(revealImage);
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              revealImage(entry.target);
+              obs.unobserve(entry.target);
+            }
+          });
+        },
+        { rootMargin: '150px 0px', threshold: 0.01 }
+      );
+
+      lazyImages.forEach((img) => observer.observe(img));
+    } catch (error) {
+      // Silencioso
+    }
+  };
+
+  return {
+    applyTheme: (theme) => applyTheme(theme),
+    toggleTheme: () => toggleTheme(),
+    openDossierModal: (destKey, triggerEl) => openDossierModal(destKey, triggerEl),
+    closeDossierModal: () => closeDossierModal(),
+    initCountdown: () => {
+      if (typeof window.initCtCountdown === 'function') {
+        window.initCtCountdown();
+      }
+    },
+    initTestimonials: () => {
+      if (typeof window.initCtTestimonials === 'function') {
+        window.initCtTestimonials();
+      }
+    },
+    initFaq: () => {
+      if (typeof window.initCtFaq === 'function') {
+        window.initCtFaq();
+      }
+    },
+    initLazyLoading,
+    showToast: (message, type) => showToast(message, type)
+  };
+})();
+
 function safeInit(label, initializer) {
   try {
     initializer();
   } catch (error) {
-    console.error(`[Cosmos Tour] Error al inicializar ${label}:`, error);
+    if (window.COSMOS_DEBUG) {
+      console.error(`[Cosmos Tour] Error al inicializar ${label}:`, error);
+    }
   }
 }
 
 /**
- * Punto de entrada: cachea el DOM e inicializa las 15 funcionalidades.
+ * Punto de entrada: cachea el DOM e inicializa las funcionalidades.
  * Es idempotente: solo la primera llamada efectiva ejecuta los arranques,
  * de modo que un segundo DOMContentLoaded (o una carga tardía del script)
  * nunca duplica listeners.
@@ -3951,6 +4537,7 @@ function init() {
   safeInit('cabecera sticky + progreso', initHeaderAndScrollIndicator);
   safeInit('validación de formulario', initFormValidation);
   safeInit('persistencia de reservas (autoguardado + Formspree)', initPersistenciaReservas);
+  safeInit('autoguardado periódico (30s)', () => window.CosmosTour.FormManager.startAutosave());
   safeInit('carrito de experiencias extras', initCarritoExperiencias);
   safeInit('visor orbital (sessionStorage)', initVisorOrbital);
   safeInit('sincronización entre pestañas', initSincronizacionEntrePestanas);
@@ -3958,7 +4545,10 @@ function init() {
   safeInit('botón reintentar envío', initBotonReintento);
   safeInit('botones de reserva (tarjetas + modal)', initBotonesReserva);
   safeInit('botón registrar otra expedición', initBotonNuevaReserva);
-  safeInit('bloque ct-countdown (cuenta regresiva)', window.initCtCountdown);
+  safeInit('bloque ct-countdown (cuenta regresiva)', window.CosmosTour.UIModule.initCountdown);
+  safeInit('carrusel de testimonios (ct-testimonials)', window.CosmosTour.UIModule.initTestimonials);
+  safeInit('preguntas frecuentes (ct-faq)', window.CosmosTour.UIModule.initFaq);
+  safeInit('lazy loading de imágenes', window.CosmosTour.UIModule.initLazyLoading);
   safeInit('animaciones de scroll', initScrollAnimations);
   safeInit('contadores del hero', initHeroCounters);
   safeInit('selector de planeta', initPlanetSelector);
