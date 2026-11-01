@@ -3,7 +3,6 @@
  
 <html lang="es" class="scroll-smooth">
   <head>
-   <!-- METADATOS PRINCIPALES Y CONFIGURACIÓN DE TIPOGRAFÍA -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cosmos Tour | Turismo Espacial de Lujo</title>
@@ -26,42 +25,17 @@
     <meta property="og:locale" content="es_ES" />
     <meta name="theme-color" content="#030712" />
 
-    <!-- Google Fonts: familias REALMENTE usadas por styles.css
-         (--font-main: Space Grotesk / --font-mono: IBM Plex Mono) -->
+    <!-- Google Fonts: preconnect + carga optimizada con display=swap -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
 
-    <!-- === OPTIMIZACIÓN 1.1: PRELOAD DE RECURSOS CRÍTICOS (LCP/FCP) === -->
-    <!-- JS con defer: el preload scanner lo descubre sin bloquear el HTML -->
-    <link rel="preload" href="script.js" as="script" />
-    <!-- Fuentes woff2 EXACTAS que sirve Google Fonts (verificadas contra la
-         respuesta real de css2): Space Grotesk/Orbitron/Inter son variables
-         (un archivo cubre todos los pesos). Si Google rota de versión, hay que
-         resincronizar estos href con la nueva respuesta. crossorigin es
-         obligatorio: las fuentes se solicitan en modo CORS. -->
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw.woff2" />
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/orbitron/v35/yMJRMIlzdpvBhQQL_Qq7dy0.woff2" />
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" />
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/ibmplexmono/v20/-F63fjptAgt5VM-kVkqdyU8n1i8q1w.woff2" />
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- CSS crítico above-the-fold minificado (~11KB inline, cero bloqueo de render) -->
+    <style>:root{--color-space-deep:#030712;--color-space-surface:#0b1120;--color-space-card:#0f172a;--color-space-darker:#02040a;--color-space-overlay:rgba(3,7,18,0.92);--color-neon-cyan:#06b6d4;--color-neon-cyan-glow:rgba(6,182,212,0.35);--color-blue:#3b82f6;--color-blue-glow:rgba(59,130,246,0.35);--color-gold:#f59e0b;--color-gold-glow:rgba(245,158,11,0.35);--color-emerald:#10b981;--color-rose:#f43f5e;--border-subtle:#1e293b;--border-light:#334155;--border-active:#06b6d4;--border-gold:rgba(245,158,11,0.6);--font-main:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;--font-body:'Plus Jakarta Sans',var(--font-main);--font-mono:'IBM Plex Mono','Space Mono',monospace;--text-pure:#ffffff;--text-main:#f8fafc;--text-muted:#94a3b8;--text-dim:#7d8ba1;--radius-sm:4px;--radius-md:8px;--radius-lg:12px;--radius-xl:16px;--transition-fast:150ms cubic-bezier(0.16,1,0.3,1);--transition-normal:250ms cubic-bezier(0.16,1,0.3,1)}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-family:var(--font-main);background-color:var(--color-space-deep);color:var(--text-main);scroll-behavior:smooth;font-size:1rem;line-height:1.5;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}h1,h2,h3,h4,.brand-title,.section-title,.card-title,.pkg-title{font-family:var(--font-main);font-weight:700;letter-spacing:-0.025em;color:var(--text-pure);text-wrap:balance}p{color:var(--text-muted);line-height:1.6}.btn,.btn-primary,.btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.8rem 1.6rem;font-family:var(--font-main);font-size:0.875rem;font-weight:600;letter-spacing:0.03em;line-height:1.2;text-decoration:none;text-align:center;white-space:nowrap;cursor:pointer;border:1px solid transparent;border-radius:10px;transition:transform 0.25s ease,box-shadow 0.25s ease,background-color 0.25s ease,border-color 0.25s ease,color 0.25s ease}.btn-primary{background-image:var(--btn-primary-bg);color:var(--btn-primary-fg);border-color:rgba(255,255,255,0.25);box-shadow:var(--btn-primary-shadow)}.btn-primary:hover,.btn-primary:focus-visible{transform:translateY(-2px);box-shadow:var(--btn-primary-shadow-hover)}.btn-primary:active{transform:translateY(0)}.btn-secondary{background-image:var(--btn-secondary-bg);color:var(--btn-secondary-fg);border-color:rgba(255,255,255,0.2);box-shadow:var(--btn-secondary-shadow)}.btn-secondary:hover,.btn-secondary:focus-visible{transform:translateY(-2px);box-shadow:var(--btn-secondary-shadow-hover)}.btn-secondary:active{transform:translateY(0)}.nav-link{font-size:0.875rem;font-weight:500;color:var(--text-muted);text-decoration:none;white-space:nowrap;transition:color var(--transition-fast)}.nav-link:hover{color:var(--text-pure);text-decoration:underline;text-underline-offset:6px;text-decoration-color:var(--color-neon-cyan)}.indicator-dot.active{background-color:var(--color-neon-cyan);box-shadow:0 0 8px var(--color-neon-cyan)}.hero-content{display:flex;flex-direction:column}.hero-title{font-size:clamp(1.5rem,5vw,2rem);line-height:1.1;letter-spacing:-0.035em;margin-bottom:1.25rem}.phase-btn.active{background-color:var(--color-neon-cyan);color:#020617;font-weight:700}.filter-tab.active{background-color:var(--color-neon-cyan);color:#020617;font-weight:700}.dossier-btn.active{background-color:rgba(6,182,212,0.15);border-color:var(--color-neon-cyan);color:var(--color-neon-cyan);font-weight:700}.btn-toggle-view.active{background-color:var(--color-neon-cyan);color:#020617;font-weight:700}.stage-select-btn.active{border-color:var(--color-neon-cyan);background-color:rgba(15,23,42,0.95);box-shadow:inset 0 0 12px rgba(6,182,212,0.15)}.opt-filter-btn.active{border-color:var(--color-neon-cyan);background-color:rgba(6,182,212,0.15);color:var(--color-neon-cyan);font-weight:700}.light-tab.active{background-color:var(--color-neon-cyan);color:#020617;font-weight:700}.service-nav-btn.active{background-color:#1e293b;color:var(--text-pure);font-weight:600}.btn-pax.active{background-color:var(--color-neon-cyan);border-color:var(--color-neon-cyan);color:#020617;font-weight:700}body{overflow-x:hidden}img{max-width:100%;height:auto}.hero-title{font-size:clamp(1.5rem,5vw,2rem)}.brand-title,.brand-wordmark{font-size:1.1rem}.nav-links{display:none}@media (min-width:480px){.hero-title{font-size:1.75rem}.brand-title,.brand-wordmark{font-size:1.35rem}.nav-links{display:flex;flex-direction:column;align-items:flex-start;position:absolute;top:100%;left:0;right:0;gap:0.75rem;padding:1rem 1.25rem;background-color:var(--color-space-darker);border-bottom:1px solid var(--border-subtle);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity 0.25s ease,transform 0.25s ease,visibility 0.25s ease}.top-nav:hover .nav-links,.top-nav:focus-within .nav-links{opacity:1;visibility:visible;transform:translateY(0)}}@media (min-width:768px){.nav-links{display:flex;flex-direction:row;align-items:center;position:static;gap:1.4rem;padding:0;background:none;border-bottom:none;opacity:1;visibility:visible;transform:none;transition:none}.hero-title{font-size:2rem}}@media (min-width:1200px){.hero-title{font-size:3.15rem}}@media (prefers-reduced-motion:reduce){*,::before,::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;scroll-behavior:auto!important}}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--color-neon-cyan);outline-offset:3px}.skip-link{position:absolute;left:-9999px;top:0;background:var(--color-space-darker);color:var(--text-main);padding:0.75rem 1.25rem;z-index:1000}.skip-link:focus{left:1rem;top:1rem}:root{--bg-primary:var(--color-space-deep);--text-primary:var(--text-main);--color-cyan:var(--color-neon-cyan);--color-border:var(--border-subtle);--color-text-muted:var(--text-muted);--color-text-dim:var(--text-dim);--color-gold-light:#fbbf24}:root[data-theme="light"]{--color-space-deep:#eef3fa;--color-space-surface:#ffffff;--color-space-card:#ffffff;--color-space-darker:#dfe8f4;--color-space-overlay:rgba(255,255,255,0.96);--border-subtle:#c9d8ea;--border-light:#9db4cd;--border-active:#0369a1;--border-gold:rgba(180,83,9,0.55);--text-pure:#0a1a2f;--text-main:#22364d;--text-muted:#46617f;--text-dim:#5b6b80;--color-neon-cyan:#0369a1;--color-neon-cyan-glow:rgba(3,105,161,0.25);--color-blue:#1d4ed8;--color-blue-glow:rgba(29,78,216,0.22);--color-gold:#b45309;--color-gold-glow:rgba(180,83,9,0.25);--color-emerald:#047857;--color-rose:#be123c;--bg-primary:#eef3fa;--text-primary:#0a1a2f;--color-cyan:#0369a1;--color-border:#c9d8ea;--color-text-muted:#46617f;--color-text-dim:#5b6b80;--color-gold-light:#92400e}:root[data-theme="light"] #universe-canvas{opacity:0.14}html,body{transition:background-color 0.3s ease,color 0.3s ease}#universe-canvas{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0;background:radial-gradient(circle at 30% 20%,rgba(59,130,246,0.08),transparent 45%),#030712}.main-wrapper{position:relative;z-index:1;padding-top:var(--nav-h,84px)}.container{width:min(1200px,92%);margin:0 auto}section{position:relative;padding:4rem 0;scroll-margin-top:calc(var(--nav-h,84px) + 12px)}.section-despegue{min-height:calc(100vh - var(--nav-h,84px));display:flex;align-items:center;padding-top:2rem;padding-bottom:3rem}.top-nav{position:fixed;top:0;left:0;width:100%;z-index:1000;padding:1.1rem 0;background:transparent;transition:background-color 0.3s ease,padding 0.3s ease,box-shadow 0.3s ease}.top-nav.header-sticky{padding:0.6rem 0;background:rgba(10,14,39,0.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,0.45)}:root[data-theme="light"] .top-nav.header-sticky{background:rgba(255,255,255,0.95);box-shadow:0 10px 30px rgba(15,23,42,0.12)}.nav-container{width:min(1200px,92%);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1.25rem;flex-wrap:wrap}.nav-links{align-items:center;gap:1.4rem;list-style:none}.nav-links .nav-link{font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap}.nav-actions{display:flex;align-items:center;gap:0.5rem}.hero-telemetry-top,.hero-telemetry-bottom{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}.hero-telemetry-bottom{margin-top:2rem;border-top:1px solid var(--border-subtle);padding-top:1.25rem}.flight-status{display:flex;align-items:center;gap:0.6rem;font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted)}.status-dot{width:0.55rem;height:0.55rem;border-radius:50%;background:#34d399;box-shadow:0 0 10px rgba(52,211,153,0.8);animation:cosmos-pulse 2s infinite}@keyframes cosmos-pulse{0%,100%{opacity:1}50%{opacity:0.35}}.hud-hint{display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;color:var(--text-dim)}.hud-metrics{display:flex;gap:2.5rem;flex-wrap:wrap}.metric-item{display:flex;flex-direction:column;gap:0.2rem}.metric-label{font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim)}.metric-value{font-family:var(--font-mono);font-size:clamp(1.15rem,3vw,1.5rem);font-weight:700;color:var(--text-pure)}.metric-unit{font-size:0.75rem;color:var(--color-neon-cyan);margin-left:0.2rem}.scroll-indicator{display:inline-flex;align-items:center;gap:0.5rem;font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-gold);text-decoration:none}.unboxed-kicker{display:flex;gap:0.75rem;flex-wrap:wrap;font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:1.25rem}.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem}.hero-description{max-width:640px;margin-top:1rem}.segmented-btn{background:transparent;border:none;color:var(--text-muted);font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.5rem 1.1rem;border-radius:999px;cursor:pointer;transition:background-color 0.25s ease,color 0.25s ease}.segmented-btn.active{background:var(--color-neon-cyan);color:#030712;font-weight:700}.amenity-filter-btn.active{background:rgba(6,182,212,0.12);border-color:var(--color-neon-cyan);color:var(--color-neon-cyan)}.flight-tab-btn.active{background:rgba(245,158,11,0.12);border-color:var(--color-gold);color:var(--color-gold)}.flight-stage-panel.active{display:block;animation:cosmos-panel-in 0.4s ease}@keyframes cosmos-panel-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}@keyframes cosmos-shake{0%,100%{transform:translate(0,0)}20%{transform:translate(-2px,1px)}40%{transform:translate(2px,-1px)}60%{transform:translate(-1px,-2px)}80%{transform:translate(1px,2px)}}@media (max-width:767px){.hud-metrics{gap:1.25rem}.metric-value{font-size:1.2rem}section{padding:3rem 0}}.flight-status-sep{color:var(--color-text-dim)}.btn-cta-lg{padding:0.85rem 2rem}.hud-hint-dot{color:var(--color-cyan)}.hero-universe-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0}.hero-universe-veil{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(3,7,18,0.86) 0%,rgba(3,7,18,0.55) 42%,rgba(3,7,18,0.9) 100%)}.section-despegue>.container{position:relative;z-index:2}:root[data-theme="light"] .section-despegue{--text-pure:#f8fafc;--text-main:#e6edf7;--text-muted:#b9c6da;--text-dim:#93a4bd;--color-neon-cyan:#38bdf8;--color-neon-cyan-glow:rgba(56,189,248,0.3);--color-gold:#fbbf24;--color-gold-glow:rgba(251,191,36,0.3);--border-subtle:rgba(255,255,255,0.22);--border-light:rgba(255,255,255,0.45);--color-space-card:rgba(6,12,28,0.55);--color-space-darker:rgba(6,12,28,0.72)}.planet-picker{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.5rem}.planet-btn.segmented-btn{display:flex;flex-direction:column;align-items:center;gap:0.4rem;min-width:76px;padding:0.55rem 0.5rem 0.45rem;background:rgba(3,7,18,0.55);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);color:var(--text-muted);cursor:pointer;transition:border-color 0.3s ease,transform 0.3s ease,box-shadow 0.3s ease,background-color 0.3s ease,color 0.3s ease}.planet-btn.segmented-btn img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.25);box-shadow:0 6px 16px rgba(0,0,0,0.5);transition:transform 0.35s ease,border-color 0.35s ease}.planet-btn-name{font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.06em}.planet-btn.segmented-btn:hover{transform:translateY(-5px);border-color:var(--border-light);color:var(--text-pure);background:rgba(6,182,212,0.14)}.planet-btn.segmented-btn:hover img{transform:scale(1.09);border-color:var(--color-neon-cyan)}.planet-btn.segmented-btn.active{border-color:var(--color-neon-cyan);color:var(--text-pure);background:rgba(6,182,212,0.16);box-shadow:0 0 20px var(--color-neon-cyan-glow)}.planet-btn.segmented-btn.active img{border-color:var(--color-neon-cyan);transform:scale(1.06)}.dest-actions .btn-secondary,.dest-actions .btn-primary{flex:1;padding-left:0.75rem;padding-right:0.75rem}@media (max-width:767px){.planet-picker{flex-wrap:nowrap;overflow-x:auto;padding-bottom:0.45rem;scrollbar-width:thin}.planet-btn.segmented-btn{min-width:68px;flex:0 0 auto}}@media (max-width:480px){.planet-btn.segmented-btn{min-width:62px;padding:0.45rem 0.4rem 0.4rem}.planet-btn.segmented-btn img{width:48px;height:48px}}:root{--btn-primary-bg:linear-gradient(135deg,var(--color-neon-cyan) 0%,#22d3ee 100%);--btn-primary-fg:#04202b;--btn-primary-shadow:0 10px 24px rgba(6,182,212,0.28),inset 0 1px 0 rgba(255,255,255,0.35);--btn-primary-shadow-hover:0 16px 32px rgba(6,182,212,0.4),inset 0 1px 0 rgba(255,255,255,0.45);--btn-secondary-bg:linear-gradient(135deg,var(--color-gold) 0%,#fbbf24 100%);--btn-secondary-fg:#241503;--btn-secondary-shadow:0 10px 24px rgba(245,158,11,0.24),inset 0 1px 0 rgba(255,255,255,0.35);--btn-secondary-shadow-hover:0 16px 32px rgba(245,158,11,0.36),inset 0 1px 0 rgba(255,255,255,0.45)}:root[data-theme="light"]{--btn-primary-bg:linear-gradient(135deg,#075985 0%,#0369a1 100%);--btn-primary-fg:#ffffff;--btn-primary-shadow:0 10px 24px rgba(3,105,161,0.3),inset 0 1px 0 rgba(255,255,255,0.25);--btn-primary-shadow-hover:0 16px 32px rgba(3,105,161,0.42),inset 0 1px 0 rgba(255,255,255,0.35);--btn-secondary-bg:linear-gradient(135deg,#b45309 0%,#92400e 100%);--btn-secondary-fg:#ffffff;--btn-secondary-shadow:0 10px 24px rgba(146,64,14,0.28),inset 0 1px 0 rgba(255,255,255,0.25);--btn-secondary-shadow-hover:0 16px 32px rgba(146,64,14,0.4),inset 0 1px 0 rgba(255,255,255,0.35)}.nav-actions .btn-primary{padding:0.62rem 1.4rem;font-size:0.8125rem;border-radius:999px}.brand-emblem{display:block;flex:0 0 auto;color:var(--text-pure);transition:transform 0.5s cubic-bezier(0.16,1,0.3,1)}.brand-emblem svg{display:block;width:30px;height:30px}.emblem-orbit{fill:none;stroke:currentColor;stroke-width:2;opacity:0.5;transition:opacity 0.35s ease}.emblem-core{fill:var(--color-neon-cyan);animation:cosmos-pulse 2.8s ease-in-out infinite}.emblem-sat{fill:currentColor;filter:drop-shadow(0 0 5px currentColor)}.brand-text{display:flex;flex-direction:column;gap:0.3rem}.brand-name{display:flex;align-items:baseline;gap:0.4em;font-family:var(--font-main);font-size:0.98rem;font-weight:700;line-height:1;letter-spacing:0.1em;text-transform:uppercase;white-space:nowrap}.brand-name-tail{font-family:var(--font-mono);font-size:0.86em;font-weight:500;letter-spacing:0.2em;color:var(--color-neon-cyan);transition:text-shadow 0.3s ease}.brand-tag{display:none;font-family:var(--font-mono);font-size:0.56rem;line-height:1;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-dim);white-space:nowrap}.nav-links{list-style:none}.nav-links .nav-link{font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap}.scroll-progress{position:absolute;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--color-neon-cyan),var(--color-gold));transition:width 0.15s linear;z-index:10}@media (min-width:768px){.brand-tag{display:block}.brand-emblem svg{width:34px;height:34px}.brand-name{font-size:1.06rem;letter-spacing:0.14em}}@media (min-width:1200px){.brand-emblem svg{width:36px;height:36px}.brand-name{font-size:1.12rem;letter-spacing:0.16em}.brand-tag{font-size:0.6rem;letter-spacing:0.34em}}.btn-icon{display:inline-flex;align-items:center;gap:0.45rem;background:transparent;border:1px solid var(--border-subtle);color:var(--text-muted);font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.1em;padding:0.5rem 0.85rem;border-radius:999px;cursor:pointer;transition:border-color 0.25s ease,color 0.25s ease,background-color 0.25s ease}.btn-icon:hover{border-color:var(--color-neon-cyan);color:var(--text-pure)}@media (max-width:480px){.btn-icon .theme-label{display:none}}</style>
 
-    <!-- CSS crítico above-the-fold: render-blocking mínimo (~11KB inline) -->
-    <style>:root{--color-space-deep: #030712;--color-space-surface: #0b1120;--color-space-card: #0f172a;--color-space-darker: #02040a;--color-space-overlay: rgba(3, 7, 18, 0.92);--color-neon-cyan: #06b6d4;--color-neon-cyan-glow: rgba(6, 182, 212, 0.35);--color-blue: #3b82f6;--color-blue-glow: rgba(59, 130, 246, 0.35);--color-gold: #f59e0b;--color-gold-glow: rgba(245, 158, 11, 0.35);--color-emerald: #10b981;--color-rose: #f43f5e;--border-subtle: #1e293b;--border-light: #334155;--border-active: #06b6d4;--border-gold: rgba(245, 158, 11, 0.6);--font-main: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;--font-body: 'Plus Jakarta Sans', var(--font-main);--font-mono: 'IBM Plex Mono', 'Space Mono', monospace;--text-pure: #ffffff;--text-main: #f8fafc;--text-muted: #94a3b8;--text-dim: #7d8ba1;--radius-sm: 4px;--radius-md: 8px;--radius-lg: 12px;--radius-xl: 16px;--transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);--transition-normal: 250ms cubic-bezier(0.16, 1, 0.3, 1)}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{font-family:var(--font-main);background-color:var(--color-space-deep);color:var(--text-main);scroll-behavior:smooth;font-size:1rem;line-height:1.5;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}h1,h2,h3,h4,.brand-title,.section-title,.card-title,.pkg-title{font-family:var(--font-main);font-weight:700;letter-spacing:-0.025em;color:var(--text-pure);text-wrap:balance}p{color:var(--text-muted);line-height:1.6}.btn,.btn-primary,.btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.8rem 1.6rem;font-family:var(--font-main);font-size:0.875rem;font-weight:600;letter-spacing:0.03em;line-height:1.2;text-decoration:none;text-align:center;white-space:nowrap;cursor:pointer;border:1px solid transparent;border-radius:10px;transition:transform 0.25s ease,box-shadow 0.25s ease,background-color 0.25s ease,border-color 0.25s ease,color 0.25s ease}.btn-primary{background-image:var(--btn-primary-bg);color:var(--btn-primary-fg);border-color:rgba(255,255,255,0.25);box-shadow:var(--btn-primary-shadow)}.btn-primary:hover,.btn-primary:focus-visible{transform:translateY(-2px);box-shadow:var(--btn-primary-shadow-hover)}.btn-primary:active{transform:translateY(0)}.btn-secondary{background-image:var(--btn-secondary-bg);color:var(--btn-secondary-fg);border-color:rgba(255,255,255,0.2);box-shadow:var(--btn-secondary-shadow)}.btn-secondary:hover,.btn-secondary:focus-visible{transform:translateY(-2px);box-shadow:var(--btn-secondary-shadow-hover)}.btn-secondary:active{transform:translateY(0)}.nav-link{font-size:0.875rem;font-weight:500;color:var(--text-muted);text-decoration:none;white-space:nowrap;transition:color var(--transition-fast)}.nav-link:hover{color:var(--text-pure);text-decoration:underline;text-underline-offset:6px;text-decoration-color:var(--color-neon-cyan)}.indicator-dot.active{background-color:var(--color-neon-cyan);box-shadow:0 0 8px var(--color-neon-cyan)}.hero-content{display:flex;flex-direction:column}.hero-title{font-size:clamp(1.5rem,5vw,2rem);line-height:1.1;letter-spacing:-0.035em;margin-bottom:1.25rem}.phase-btn.active{background-color:var(--color-neon-cyan);color:#020617;font-weight:700}.filter-tab.active{background-color:var(--color-neon-cyan);color:#020617;font-weight:700}.dossier-btn.active{background-color:rgba(6,182,212,0.15);border-color:var(--color-neon-cyan);color:var(--color-neon-cyan);font-weight:700}.btn-toggle-view.active{background-color:var(--color-neon-cyan);color:#020617;font-weight:700}.stage-select-btn.active{border-color:var(--color-neon-cyan);background-color:rgba(15,23,42,0.95);box-shadow:inset 0 0 12px rgba(6,182,212,0.15)}.opt-filter-btn.active{border-color:var(--color-neon-cyan);background-color:rgba(6,182,212,0.15);color:var(--color-neon-cyan);font-weight:700}.light-tab.active{background-color:var(--color-neon-cyan);color:#020617;font-weight:700}.service-nav-btn.active{background-color:#1e293b;color:var(--text-pure);font-weight:600}.btn-pax.active{background-color:var(--color-neon-cyan);border-color:var(--color-neon-cyan);color:#020617;font-weight:700}body{overflow-x:hidden}img{max-width:100%;height:auto}.hero-title{font-size:clamp(1.5rem,5vw,2rem)}.brand-title,.brand-wordmark{font-size:1.1rem}.nav-links{display:none}@media (min-width:480px){.hero-title{font-size:1.75rem}.brand-title,.brand-wordmark{font-size:1.35rem}.nav-links{display:flex;flex-direction:column;align-items:flex-start;position:absolute;top:100%;left:0;right:0;gap:0.75rem;padding:1rem 1.25rem;background-color:var(--color-space-darker);border-bottom:1px solid var(--border-subtle);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity 0.25s ease,transform 0.25s ease,visibility 0.25s ease}.top-nav:hover .nav-links,.top-nav:focus-within .nav-links{opacity:1;visibility:visible;transform:translateY(0)}}@media (min-width:768px){.nav-links{display:flex;flex-direction:row;align-items:center;position:static;gap:1.4rem;padding:0;background:none;border-bottom:none;opacity:1;visibility:visible;transform:none;transition:none}.hero-title{font-size:2rem}}@media (min-width:1200px){.hero-title{font-size:3.15rem}}@media (prefers-reduced-motion:reduce){*,::before,::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;scroll-behavior:auto!important}}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--color-neon-cyan);outline-offset:3px}.skip-link{position:absolute;left:-9999px;top:0;background:var(--color-space-darker);color:var(--text-main);padding:0.75rem 1.25rem;z-index:1000}.skip-link:focus{left:1rem;top:1rem}:root{--bg-primary: var(--color-space-deep);--text-primary: var(--text-main);--color-cyan: var(--color-neon-cyan);--color-border: var(--border-subtle);--color-text-muted: var(--text-muted);--color-text-dim: var(--text-dim);--color-gold-light: #fbbf24}:root[data-theme="light"]{--color-space-deep: #eef3fa;--color-space-surface: #ffffff;--color-space-card: #ffffff;--color-space-darker: #dfe8f4;--color-space-overlay: rgba(255, 255, 255, 0.96);--border-subtle: #c9d8ea;--border-light: #9db4cd;--border-active: #0369a1;--border-gold: rgba(180, 83, 9, 0.55);--text-pure: #0a1a2f;--text-main: #22364d;--text-muted: #46617f;--text-dim: #5b6b80;--color-neon-cyan: #0369a1;--color-neon-cyan-glow: rgba(3, 105, 161, 0.25);--color-blue: #1d4ed8;--color-blue-glow: rgba(29, 78, 216, 0.22);--color-gold: #b45309;--color-gold-glow: rgba(180, 83, 9, 0.25);--color-emerald: #047857;--color-rose: #be123c;--bg-primary: #eef3fa;--text-primary: #0a1a2f;--color-cyan: #0369a1;--color-border: #c9d8ea;--color-text-muted: #46617f;--color-text-dim: #5b6b80;--color-gold-light: #92400e}:root[data-theme="light"] #universe-canvas{opacity:0.14}html,body{transition:background-color 0.3s ease,color 0.3s ease}#universe-canvas{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0;background:radial-gradient(circle at 30% 20%,rgba(59,130,246,0.08),transparent 45%),#030712}.main-wrapper{position:relative;z-index:1;padding-top:var(--nav-h,84px)}.container{width:min(1200px,92%);margin:0 auto}section{position:relative;padding:4rem 0;scroll-margin-top:calc(var(--nav-h,84px) + 12px)}.section-despegue{min-height:calc(100vh - var(--nav-h,84px));display:flex;align-items:center;padding-top:2rem;padding-bottom:3rem}.top-nav{position:fixed;top:0;left:0;width:100%;z-index:1000;padding:1.1rem 0;background:transparent;transition:background-color 0.3s ease,padding 0.3s ease,box-shadow 0.3s ease}.top-nav.header-sticky{padding:0.6rem 0;background:rgba(10,14,39,0.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,0.45)}:root[data-theme="light"] .top-nav.header-sticky{background:rgba(255,255,255,0.95);box-shadow:0 10px 30px rgba(15,23,42,0.12)}.nav-container{width:min(1200px,92%);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1.25rem;flex-wrap:wrap}.nav-links{align-items:center;gap:1.4rem;list-style:none}.nav-links .nav-link{font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap}.nav-actions{display:flex;align-items:center;gap:0.5rem}.hero-telemetry-top,.hero-telemetry-bottom{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}.hero-telemetry-bottom{margin-top:2rem;border-top:1px solid var(--border-subtle);padding-top:1.25rem}.flight-status{display:flex;align-items:center;gap:0.6rem;font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted)}.status-dot{width:0.55rem;height:0.55rem;border-radius:50%;background:#34d399;box-shadow:0 0 10px rgba(52,211,153,0.8);animation:cosmos-pulse 2s infinite}@keyframes cosmos-pulse{0%,100%{opacity:1}50%{opacity:0.35}}.hud-hint{display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;color:var(--text-dim)}.hud-metrics{display:flex;gap:2.5rem;flex-wrap:wrap}.metric-item{display:flex;flex-direction:column;gap:0.2rem}.metric-label{font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim)}.metric-value{font-family:var(--font-mono);font-size:clamp(1.15rem,3vw,1.5rem);font-weight:700;color:var(--text-pure)}.metric-unit{font-size:0.75rem;color:var(--color-neon-cyan);margin-left:0.2rem}.scroll-indicator{display:inline-flex;align-items:center;gap:0.5rem;font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-gold);text-decoration:none}.unboxed-kicker{display:flex;gap:0.75rem;flex-wrap:wrap;font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:1.25rem}.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem}.hero-description{max-width:640px;margin-top:1rem}.segmented-btn{background:transparent;border:none;color:var(--text-muted);font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.5rem 1.1rem;border-radius:999px;cursor:pointer;transition:background-color 0.25s ease,color 0.25s ease}.segmented-btn.active{background:var(--color-neon-cyan);color:#030712;font-weight:700}.amenity-filter-btn.active{background:rgba(6,182,212,0.12);border-color:var(--color-neon-cyan);color:var(--color-neon-cyan)}.flight-tab-btn.active{background:rgba(245,158,11,0.12);border-color:var(--color-gold);color:var(--color-gold)}.flight-stage-panel.active{display:block;animation:cosmos-panel-in 0.4s ease}@keyframes cosmos-panel-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}@keyframes cosmos-shake{0%,100%{transform:translate(0,0)}20%{transform:translate(-2px,1px)}40%{transform:translate(2px,-1px)}60%{transform:translate(-1px,-2px)}80%{transform:translate(1px,2px)}}@media (max-width:767px){.hud-metrics{gap:1.25rem}.metric-value{font-size:1.2rem}section{padding:3rem 0}}.flight-status-sep{color:var(--color-text-dim)}.btn-cta-lg{padding:0.85rem 2rem}.hud-hint-dot{color:var(--color-cyan)}.hero-universe-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0}.hero-universe-veil{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(3,7,18,0.86) 0%,rgba(3,7,18,0.55) 42%,rgba(3,7,18,0.9) 100%)}.section-despegue>.container{position:relative;z-index:2}:root[data-theme="light"] .section-despegue{--text-pure: #f8fafc;--text-main: #e6edf7;--text-muted: #b9c6da;--text-dim: #93a4bd;--color-neon-cyan: #38bdf8;--color-neon-cyan-glow: rgba(56, 189, 248, 0.3);--color-gold: #fbbf24;--color-gold-glow: rgba(251, 191, 36, 0.3);--border-subtle: rgba(255, 255, 255, 0.22);--border-light: rgba(255, 255, 255, 0.45);--color-space-card: rgba(6, 12, 28, 0.55);--color-space-darker: rgba(6, 12, 28, 0.72)}.planet-picker{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.5rem}.planet-btn.segmented-btn{display:flex;flex-direction:column;align-items:center;gap:0.4rem;min-width:76px;padding:0.55rem 0.5rem 0.45rem;background:rgba(3,7,18,0.55);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);color:var(--text-muted);cursor:pointer;transition:border-color 0.3s ease,transform 0.3s ease,box-shadow 0.3s ease,background-color 0.3s ease,color 0.3s ease}.planet-btn.segmented-btn img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.25);box-shadow:0 6px 16px rgba(0,0,0,0.5);transition:transform 0.35s ease,border-color 0.35s ease}.planet-btn-name{font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.06em}.planet-btn.segmented-btn:hover{transform:translateY(-5px);border-color:var(--border-light);color:var(--text-pure);background:rgba(6,182,212,0.14)}.planet-btn.segmented-btn:hover img{transform:scale(1.09);border-color:var(--color-neon-cyan)}.planet-btn.segmented-btn.active{border-color:var(--color-neon-cyan);color:var(--text-pure);background:rgba(6,182,212,0.16);box-shadow:0 0 20px var(--color-neon-cyan-glow)}.planet-btn.segmented-btn.active img{border-color:var(--color-neon-cyan);transform:scale(1.06)}.dest-actions .btn-secondary,.dest-actions .btn-primary{flex:1;padding-left:0.75rem;padding-right:0.75rem}@media (max-width:767px){.planet-picker{flex-wrap:nowrap;overflow-x:auto;padding-bottom:0.45rem;scrollbar-width:thin}.planet-btn.segmented-btn{min-width:68px;flex:0 0 auto}}@media (max-width:480px){.planet-btn.segmented-btn{min-width:62px;padding:0.45rem 0.4rem 0.4rem}.planet-btn.segmented-btn img{width:48px;height:48px}}:root{--btn-primary-bg: linear-gradient(135deg, var(--color-neon-cyan) 0%, #22d3ee 100%);--btn-primary-fg: #04202b;--btn-primary-shadow: 0 10px 24px rgba(6, 182, 212, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.35);--btn-primary-shadow-hover: 0 16px 32px rgba(6, 182, 212, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.45);--btn-secondary-bg: linear-gradient(135deg, var(--color-gold) 0%, #fbbf24 100%);--btn-secondary-fg: #241503;--btn-secondary-shadow: 0 10px 24px rgba(245, 158, 11, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.35);--btn-secondary-shadow-hover: 0 16px 32px rgba(245, 158, 11, 0.36),
-    inset 0 1px 0 rgba(255, 255, 255, 0.45)}:root[data-theme="light"]{--btn-primary-bg: linear-gradient(135deg, #075985 0%, #0369a1 100%);--btn-primary-fg: #ffffff;--btn-primary-shadow: 0 10px 24px rgba(3, 105, 161, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);--btn-primary-shadow-hover: 0 16px 32px rgba(3, 105, 161, 0.42),
-    inset 0 1px 0 rgba(255, 255, 255, 0.35);--btn-secondary-bg: linear-gradient(135deg, #b45309 0%, #92400e 100%);--btn-secondary-fg: #ffffff;--btn-secondary-shadow: 0 10px 24px rgba(146, 64, 14, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);--btn-secondary-shadow-hover: 0 16px 32px rgba(146, 64, 14, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.35)}.nav-actions .btn-primary{padding:0.62rem 1.4rem;font-size:0.8125rem;border-radius:999px}/* [CRÍTICO] Lockup de marca: debe pintarse en el primer render para que la
-   medición temprana de --nav-h (script tras </header>) coincida con la altura
-   final de la cabecera y no produzca layout shift (CLS). */.brand-emblem{display:block;flex:0 0 auto;color:var(--text-pure);transition:transform 0.5s cubic-bezier(0.16,1,0.3,1)}.brand-emblem svg{display:block;width:30px;height:30px}.emblem-orbit{fill:none;stroke:currentColor;stroke-width:2;opacity:0.5;transition:opacity 0.35s ease}.emblem-core{fill:var(--color-neon-cyan);animation:cosmos-pulse 2.8s ease-in-out infinite}.emblem-sat{fill:currentColor;filter:drop-shadow(0 0 5px currentColor)}.brand-text{display:flex;flex-direction:column;gap:0.3rem}.brand-name{display:flex;align-items:baseline;gap:0.4em;font-family:var(--font-main);font-size:0.98rem;font-weight:700;line-height:1;letter-spacing:0.1em;text-transform:uppercase;white-space:nowrap}.brand-name-tail{font-family:var(--font-mono);font-size:0.86em;font-weight:500;letter-spacing:0.2em;color:var(--color-neon-cyan);transition:text-shadow 0.3s ease}.brand-tag{display:none;font-family:var(--font-mono);font-size:0.56rem;line-height:1;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-dim);white-space:nowrap}.nav-links{list-style:none}.nav-links .nav-link{font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap}.scroll-progress{position:absolute;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--color-neon-cyan),var(--color-gold));transition:width 0.15s linear;z-index:10}@media (min-width:768px){.brand-tag{display:block}.brand-emblem svg{width:34px;height:34px}.brand-name{font-size:1.06rem;letter-spacing:0.14em}}@media (min-width:1200px){.brand-emblem svg{width:36px;height:36px}.brand-name{font-size:1.12rem;letter-spacing:0.16em}.brand-tag{font-size:0.6rem;letter-spacing:0.34em}}/* [CRÍTICO] Botón de tema en cabecera: estático en el HTML y este bloque
-   evita que su tamaño cambie al aplicarse styles.css (wrap del nav-container). */
-.btn-icon{display:inline-flex;align-items:center;gap:0.45rem;background:transparent;border:1px solid var(--border-subtle);color:var(--text-muted);font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.1em;padding:0.5rem 0.85rem;border-radius:999px;cursor:pointer;transition:border-color 0.25s ease,color 0.25s ease,background-color 0.25s ease}.btn-icon:hover{border-color:var(--color-neon-cyan);color:var(--text-pure)}@media (max-width:480px){.btn-icon .theme-label{display:none}}</style>
-
-    <!-- Hoja completa: carga asíncrona (no bloquea el primer pintado) -->
-    <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <!-- Hoja completa: carga asíncrona no bloqueante sin advertencias de preload -->
+    <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="styles.css" /></noscript>
 
     <!-- Favicon SVG -->
@@ -180,32 +154,8 @@
       </div>
     </header>
 
-    <!-- [PERF/CLS] Mide --nav-h ANTES del primer pintado. Sin este script el
-         padding de .main-wrapper cambiaba de 84px a la altura real (p.ej. 129px
-         en móvil) cuando script.js corría tras el FCP: ese salto aportaba
-         0.274 del CLS total. Se duplica aquí deliberadamente (inline, síncrono)
-         porque script.js se carga con defer y llegaría tarde. -->
-    <script>
-      (function () {
-        var h = document.querySelector('.top-nav');
-        if (!h) return;
-        var cs = getComputedStyle(h);
-        var root = getComputedStyle(document.documentElement);
-        var padRaw = (root.getPropertyValue('--nav-pad-y') || '1.1rem').trim();
-        var padNum = parseFloat(padRaw);
-        if (!padNum) return;
-        var fontPx = parseFloat(root.fontSize) || 16;
-        var padPx = padRaw.indexOf('rem') > -1 ? padNum * fontPx : padNum;
-        var curPad = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0);
-        var content = h.getBoundingClientRect().height - curPad;
-        if (content > 0) {
-          document.documentElement.style.setProperty(
-            '--nav-h',
-            Math.ceil(content + padPx * 2) + 'px'
-          );
-        }
-      })();
-    </script>
+    <!-- [PERF/CLS] JS crítico inline minificado: mide --nav-h antes del primer pintado -->
+    <script>(function(){var h=document.querySelector(".top-nav");if(!h)return;var cs=getComputedStyle(h),root=getComputedStyle(document.documentElement),padRaw=(root.getPropertyValue("--nav-pad-y")||"1.1rem").trim(),padNum=parseFloat(padRaw);if(!padNum)return;var fontPx=parseFloat(root.fontSize)||16,padPx=padRaw.indexOf("rem")>-1?padNum*fontPx:padNum,curPad=(parseFloat(cs.paddingTop)||0)+(parseFloat(cs.paddingBottom)||0),content=h.getBoundingClientRect().height-curPad;if(content>0)document.documentElement.style.setProperty("--nav-h",Math.ceil(content+padPx*2)+"px")})();</script>
 
     <!-- Contenedor Semántico Principal -->
     <main class="main-wrapper">
@@ -777,10 +727,18 @@
 
       <!-- ====================================================================
            SECCIÓN E: TESTIMONIOS (Prueba Social & Bitácora de Tripulantes)
+           BLOQUE ct-testimonials — Carrusel deslizante responsive (1 col mobile /
+           3 cols desktop), navegación prev/next + dots y auto-play cada 5s.
            ==================================================================== -->
-      <section id="testimonios" class="section-testimonios" aria-labelledby="testimonios-title">
+      <section
+        id="testimonios"
+        class="section-testimonios ct-testimonials"
+        aria-labelledby="testimonios-title"
+        data-ct-autoplay="true"
+        data-ct-interval="5000"
+      >
         <div class="container">
-          <header class="section-header">
+          <header class="section-header ct-testimonials-header">
             <div>
               <div class="section-kicker">Bitácora de Tripulantes Civiles · Prueba Social Verificada</div>
               <h2 id="testimonios-title" class="section-title">Testimonios de Nuestros Exploradores</h2>
@@ -790,62 +748,193 @@
             </p>
           </header>
 
-          <div class="testimonials-grid">
-            <!-- Testimonio 1 -->
-            <article class="testimonial-card">
-              <blockquote class="testimonial-quote">
-                "El instante en que la Tierra reapareció tras el ventanal de cuarzo de zafiro no se compara con nada que haya vivido.
-                La suite presurizada, el silencio absoluto y el amanecer sobre el cráter Shackleton superaron cada expectativa
-                que había construido durante años de anticipación."
-              </blockquote>
-              <footer class="testimonial-footer">
-                <span class="author-name">Isabela Fontaine Rivas</span>
-                <span class="author-role">Directora de Arte · Ciudad de México, México</span>
-                <span class="mission-tag">MISIÓN CT-2026-LUN-014</span>
-              </footer>
-            </article>
+          <!-- Viewport deslizante del carrusel -->
+          <div class="ct-testimonials-viewport" role="region" aria-roledescription="carrusel" aria-label="Experiencias de viajeros espaciales">
+            <div class="ct-testimonials-track testimonials-grid" data-ct-track>
+              <!-- Testimonio 1 -->
+              <article class="ct-testimonial-card testimonial-card" data-ct-slide="0">
+                <header class="ct-testimonial-top">
+                  <div class="ct-testimonial-user">
+                    <img
+                      class="ct-testimonial-avatar"
+                      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='40' cy='40' r='40' fill='url(%23g1)'/%3E%3Ccircle cx='40' cy='31' r='13' fill='%230f172a' fill-opacity='0.35'/%3E%3Cpath d='M18 68c4-12 14-18 22-18s18 6 22 18' fill='%230f172a' fill-opacity='0.35'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='Space Grotesk,sans-serif' font-size='22' font-weight='700'%3EIF%3C/text%3E%3C/svg%3E"
+                      alt="Avatar de Isabela Fontaine Rivas"
+                      width="56"
+                      height="56"
+                      loading="lazy"
+                    />
+                    <div class="ct-testimonial-meta">
+                      <span class="author-name ct-testimonial-name">Isabela Fontaine Rivas</span>
+                      <span class="author-role ct-testimonial-role">Directora de Arte · Ciudad de México, México</span>
+                    </div>
+                  </div>
+                  <div class="ct-testimonial-stars" role="img" aria-label="Calificación: 5 de 5 estrellas">
+                    <span aria-hidden="true">★★★★★</span>
+                  </div>
+                </header>
 
-            <!-- Testimonio 2 -->
-            <article class="testimonial-card">
-              <blockquote class="testimonial-quote">
-                "Diez días en microgravedad reordenan por completo la mente. El equipo médico estuvo presente en cada fase
-                y la Cupola Panorámica, reservada en exclusividad para nuestra familia, convirtió cada órbita
-                en una cena privada frente a la curvatura del planeta."
-              </blockquote>
-              <footer class="testimonial-footer">
-                <span class="author-name">Rafael Augusto Miranda Cardona</span>
-                <span class="author-role">CEO de Fintech Andina · Bogotá, Colombia</span>
-                <span class="mission-tag">MISIÓN CT-2026-EEI-087</span>
-              </footer>
-            </article>
+                <blockquote class="testimonial-quote ct-testimonial-text">
+                  "El instante en que la Tierra reapareció tras el ventanal de cuarzo de zafiro no se compara con nada que haya vivido. La suite presurizada y el amanecer sobre el cráter Shackleton superaron cada expectativa."
+                </blockquote>
 
-            <!-- Testimonio 3 -->
-            <article class="testimonial-card">
-              <blockquote class="testimonial-quote">
-                "A mis 58 años temía el despegue; la secuencia de ignición fue sorprendentemente suave y los asientos
-                de fibra de carbono absorben la vibración mejor que cualquier primer clase aérea.
-                Ver Valles Marineris desde la cupola es algo que intento describir desde entonces sin éxito."
-              </blockquote>
-              <footer class="testimonial-footer">
-                <span class="author-name">Claire Bouchard Lefèvre</span>
-                <span class="author-role">Cirujana Cardiovascular Consultora · Lyon, Francia</span>
-                <span class="mission-tag">MISIÓN CT-2027-MAR-006</span>
-              </footer>
-            </article>
+                <footer class="testimonial-footer ct-testimonial-footer">
+                  <span class="ct-testimonial-tour">Tour: Expedición Lunar Artemisa Prime</span>
+                  <span class="mission-tag">MISIÓN CT-2026-LUN-014</span>
+                </footer>
+              </article>
 
-            <!-- Testimonio 4 -->
-            <article class="testimonial-card">
-              <blockquote class="testimonial-quote">
-                "Reservé la expedición como regalo de jubilación y terminó siendo el viaje definitorio de mi vida.
-                La atención al detalle —desde el traje confeccionado a medida hasta el menú molecular en ingravidez—
-                justifica con creces la inversión."
-              </blockquote>
-              <footer class="testimonial-footer">
-                <span class="author-name">Hiroshi Tanaka Endo</span>
-                <span class="author-role">Ingeniero Jefe de Robótica (Jubilado) · Kioto, Japón</span>
-                <span class="mission-tag">MISIÓN CT-2026-LUN-031</span>
-              </footer>
-            </article>
+              <!-- Testimonio 2 -->
+              <article class="ct-testimonial-card testimonial-card" data-ct-slide="1">
+                <header class="ct-testimonial-top">
+                  <div class="ct-testimonial-user">
+                    <img
+                      class="ct-testimonial-avatar"
+                      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3ClinearGradient id='g2' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%2306b6d4'/%3E%3Cstop offset='100%25' stop-color='%233b82f6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='40' cy='40' r='40' fill='url(%23g2)'/%3E%3Ccircle cx='40' cy='31' r='13' fill='%230f172a' fill-opacity='0.35'/%3E%3Cpath d='M18 68c4-12 14-18 22-18s18 6 22 18' fill='%230f172a' fill-opacity='0.35'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='Space Grotesk,sans-serif' font-size='22' font-weight='700'%3ERM%3C/text%3E%3C/svg%3E"
+                      alt="Avatar de Rafael Augusto Miranda Cardona"
+                      width="56"
+                      height="56"
+                      loading="lazy"
+                    />
+                    <div class="ct-testimonial-meta">
+                      <span class="author-name ct-testimonial-name">Rafael Augusto Miranda Cardona</span>
+                      <span class="author-role ct-testimonial-role">CEO de Fintech Andina · Bogotá, Colombia</span>
+                    </div>
+                  </div>
+                  <div class="ct-testimonial-stars" role="img" aria-label="Calificación: 5 de 5 estrellas">
+                    <span aria-hidden="true">★★★★★</span>
+                  </div>
+                </header>
+
+                <blockquote class="testimonial-quote ct-testimonial-text">
+                  "Diez días en microgravedad reordenan por completo la mente. El equipo médico estuvo presente en cada fase y la Cupola Panorámica convirtió cada órbita en una cena privada frente al planeta."
+                </blockquote>
+
+                <footer class="testimonial-footer ct-testimonial-footer">
+                  <span class="ct-testimonial-tour">Tour: Estación Espacial Apex Cupola</span>
+                  <span class="mission-tag">MISIÓN CT-2026-EEI-087</span>
+                </footer>
+              </article>
+
+              <!-- Testimonio 3 -->
+              <article class="ct-testimonial-card testimonial-card" data-ct-slide="2">
+                <header class="ct-testimonial-top">
+                  <div class="ct-testimonial-user">
+                    <img
+                      class="ct-testimonial-avatar"
+                      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3ClinearGradient id='g3' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%238b5cf6'/%3E%3Cstop offset='100%25' stop-color='%236366f1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='40' cy='40' r='40' fill='url(%23g3)'/%3E%3Ccircle cx='40' cy='31' r='13' fill='%230f172a' fill-opacity='0.35'/%3E%3Cpath d='M18 68c4-12 14-18 22-18s18 6 22 18' fill='%230f172a' fill-opacity='0.35'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='Space Grotesk,sans-serif' font-size='22' font-weight='700'%3ECB%3C/text%3E%3C/svg%3E"
+                      alt="Avatar de Claire Bouchard Lefèvre"
+                      width="56"
+                      height="56"
+                      loading="lazy"
+                    />
+                    <div class="ct-testimonial-meta">
+                      <span class="author-name ct-testimonial-name">Claire Bouchard Lefèvre</span>
+                      <span class="author-role ct-testimonial-role">Cirujana Cardiovascular Consultora · Lyon, Francia</span>
+                    </div>
+                  </div>
+                  <div class="ct-testimonial-stars" role="img" aria-label="Calificación: 5 de 5 estrellas">
+                    <span aria-hidden="true">★★★★★</span>
+                  </div>
+                </header>
+
+                <blockquote class="testimonial-quote ct-testimonial-text">
+                  "La secuencia de ignición fue sorprendentemente suave y los asientos de fibra de carbono absorben la vibración mejor que cualquier primera clase aérea. Ver Valles Marineris desde la cúpula es inolvidable."
+                </blockquote>
+
+                <footer class="testimonial-footer ct-testimonial-footer">
+                  <span class="ct-testimonial-tour">Tour: Odisea Marte Valles Marineris</span>
+                  <span class="mission-tag">MISIÓN CT-2027-MAR-006</span>
+                </footer>
+              </article>
+
+              <!-- Testimonio 4 -->
+              <article class="ct-testimonial-card testimonial-card" data-ct-slide="3">
+                <header class="ct-testimonial-top">
+                  <div class="ct-testimonial-user">
+                    <img
+                      class="ct-testimonial-avatar"
+                      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3ClinearGradient id='g4' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23f59e0b'/%3E%3Cstop offset='100%25' stop-color='%236366f1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='40' cy='40' r='40' fill='url(%23g4)'/%3E%3Ccircle cx='40' cy='31' r='13' fill='%230f172a' fill-opacity='0.35'/%3E%3Cpath d='M18 68c4-12 14-18 22-18s18 6 22 18' fill='%230f172a' fill-opacity='0.35'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='Space Grotesk,sans-serif' font-size='22' font-weight='700'%3EHT%3C/text%3E%3C/svg%3E"
+                      alt="Avatar de Hiroshi Tanaka Endo"
+                      width="56"
+                      height="56"
+                      loading="lazy"
+                    />
+                    <div class="ct-testimonial-meta">
+                      <span class="author-name ct-testimonial-name">Hiroshi Tanaka Endo</span>
+                      <span class="author-role ct-testimonial-role">Ingeniero Jefe de Robótica (Jubilado) · Kioto, Japón</span>
+                    </div>
+                  </div>
+                  <div class="ct-testimonial-stars" role="img" aria-label="Calificación: 5 de 5 estrellas">
+                    <span aria-hidden="true">★★★★★</span>
+                  </div>
+                </header>
+
+                <blockquote class="testimonial-quote ct-testimonial-text">
+                  "Reservé la expedición como regalo de jubilación y terminó siendo el viaje definitorio de mi vida. Desde el traje confeccionado a medida hasta el menú molecular en ingravidez, todo superó mis expectativas."
+                </blockquote>
+
+                <footer class="testimonial-footer ct-testimonial-footer">
+                  <span class="ct-testimonial-tour">Tour: Expedición Lunar Artemisa Prime</span>
+                  <span class="mission-tag">MISIÓN CT-2026-LUN-031</span>
+                </footer>
+              </article>
+            </div>
+          </div>
+
+          <!-- Controles de navegación del carrusel: Anterior / Dots / Siguiente -->
+          <div class="ct-testimonials-controls" aria-label="Controles del carrusel de testimonios">
+            <button
+              type="button"
+              class="ct-testimonials-btn ct-testimonials-btn--prev"
+              data-ct-prev
+              aria-label="Testimonio anterior"
+            >
+              <span aria-hidden="true">←</span>
+            </button>
+
+            <div class="ct-testimonials-dots" role="tablist" aria-label="Seleccionar testimonio" data-ct-dots>
+              <button
+                type="button"
+                class="ct-testimonial-dot active"
+                role="tab"
+                aria-selected="true"
+                aria-label="Ir al testimonio 1"
+                data-ct-dot="0"
+              ></button>
+              <button
+                type="button"
+                class="ct-testimonial-dot"
+                role="tab"
+                aria-selected="false"
+                aria-label="Ir al testimonio 2"
+                data-ct-dot="1"
+              ></button>
+              <button
+                type="button"
+                class="ct-testimonial-dot"
+                role="tab"
+                aria-selected="false"
+                aria-label="Ir al testimonio 3"
+                data-ct-dot="2"
+              ></button>
+              <button
+                type="button"
+                class="ct-testimonial-dot"
+                role="tab"
+                aria-selected="false"
+                aria-label="Ir al testimonio 4"
+                data-ct-dot="3"
+              ></button>
+            </div>
+
+            <button
+              type="button"
+              class="ct-testimonials-btn ct-testimonials-btn--next"
+              data-ct-next
+              aria-label="Siguiente testimonio"
+            >
+              <span aria-hidden="true">→</span>
+            </button>
           </div>
         </div>
       </section>
@@ -894,6 +983,172 @@
           </div>
 
           <a class="ct-countdown-cta" href="#registro">Reservar en esta ventana →</a>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           BLOQUE ct-faq (convención de nombres "ct-") · Preguntas Frecuentes
+           Acordeón exclusivo (solo 1 pregunta abierta a la vez), event delegation
+           en IIFE (initCtFaq) y atributos ARIA de accesibilidad.
+           ==================================================================== -->
+      <section id="faq" class="ct-faq" aria-labelledby="ct-faq-title">
+        <div class="container">
+          <header class="section-header ct-faq-header">
+            <div>
+              <div class="section-kicker">Centro de Información Orbital · Despacho de Dudas</div>
+              <h2 id="ct-faq-title" class="section-title">Preguntas Frecuentes sobre Expediciones</h2>
+            </div>
+            <p class="section-intro">
+              Resolvemos las consultas clave sobre preparación física, seguridad aeroespacial, cobertura de suites y políticas de reserva.
+            </p>
+          </header>
+
+          <div class="ct-faq-list" data-ct-faq-list>
+            <!-- Pregunta 1 (abierta por defecto) -->
+            <article class="ct-faq-item active open" data-ct-faq-item>
+              <h3 class="ct-faq-heading">
+                <button
+                  type="button"
+                  id="ct-faq-btn-1"
+                  class="ct-faq-question"
+                  aria-expanded="true"
+                  aria-controls="ct-faq-panel-1"
+                >
+                  <span class="ct-faq-question-text">¿Necesito entrenamiento especial?</span>
+                  <span class="ct-faq-icon" aria-hidden="true">+</span>
+                </button>
+              </h3>
+              <div
+                id="ct-faq-panel-1"
+                class="ct-faq-answer"
+                role="region"
+                aria-labelledby="ct-faq-btn-1"
+                aria-hidden="false"
+              >
+                <div class="ct-faq-answer-inner">
+                  <p>
+                    Sí, pero está diseñado para civiles sin experiencia aeroespacial previa. Incluye un programa de preparación de 14 días en nuestra Academia de Cosmopuerto con vuelos parabólicos de adaptación a gravedad cero, simulador de centrífuga suave y protocolos de cabina presurizada guiados por ex-comandantes de la ISS.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Pregunta 2 -->
+            <article class="ct-faq-item" data-ct-faq-item>
+              <h3 class="ct-faq-heading">
+                <button
+                  type="button"
+                  id="ct-faq-btn-2"
+                  class="ct-faq-question"
+                  aria-expanded="false"
+                  aria-controls="ct-faq-panel-2"
+                >
+                  <span class="ct-faq-question-text">¿Cuál es la duración promedio del tour?</span>
+                  <span class="ct-faq-icon" aria-hidden="true">+</span>
+                </button>
+              </h3>
+              <div
+                id="ct-faq-panel-2"
+                class="ct-faq-answer"
+                role="region"
+                aria-labelledby="ct-faq-btn-2"
+                aria-hidden="true"
+              >
+                <div class="ct-faq-answer-inner">
+                  <p>
+                    La duración depende del destino seleccionado: la Expedición Lunar Artemisa Prime dura 6 días terrestres, la residencia orbital en la Estación Espacial Internacional (Apex Cupola) abarca 10 días en órbita baja, y la Odisea Interplanetaria a Marte contempla una travesía de 180 días con gravedad centrífuga.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Pregunta 3 -->
+            <article class="ct-faq-item" data-ct-faq-item>
+              <h3 class="ct-faq-heading">
+                <button
+                  type="button"
+                  id="ct-faq-btn-3"
+                  class="ct-faq-question"
+                  aria-expanded="false"
+                  aria-controls="ct-faq-panel-3"
+                >
+                  <span class="ct-faq-question-text">¿Qué incluye el paquete?</span>
+                  <span class="ct-faq-icon" aria-hidden="true">+</span>
+                </button>
+              </h3>
+              <div
+                id="ct-faq-panel-3"
+                class="ct-faq-answer"
+                role="region"
+                aria-labelledby="ct-faq-btn-3"
+                aria-hidden="true"
+              >
+                <div class="ct-faq-answer-inner">
+                  <p>
+                    Todas las tarifas incluyen alojamiento en suite presurizada privada, alta gastronomía molecular diseñada por chefs con estrella Michelin, traje espacial presurizado confeccionado a medida, enlace cuántico continuo 24/7 con la Tierra, telemetría médica personalizada y seguro interplanetario integral respaldado por Lloyd's.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Pregunta 4 -->
+            <article class="ct-faq-item" data-ct-faq-item>
+              <h3 class="ct-faq-heading">
+                <button
+                  type="button"
+                  id="ct-faq-btn-4"
+                  class="ct-faq-question"
+                  aria-expanded="false"
+                  aria-controls="ct-faq-panel-4"
+                >
+                  <span class="ct-faq-question-text">¿Es seguro viajar al espacio?</span>
+                  <span class="ct-faq-icon" aria-hidden="true">+</span>
+                </button>
+              </h3>
+              <div
+                id="ct-faq-panel-4"
+                class="ct-faq-answer"
+                role="region"
+                aria-labelledby="ct-faq-btn-4"
+                aria-hidden="true"
+              >
+                <div class="ct-faq-answer-inner">
+                  <p>
+                    Nuestra flota opera con triple redundancia en soporte vital, blindaje magnético activo contra radiación cósmica y sistemas de escape balístico certificados en cada fase del ascenso. Además, un equipo médico aeroespacial acompaña a la tripulación durante toda la misión.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Pregunta 5 -->
+            <article class="ct-faq-item" data-ct-faq-item>
+              <h3 class="ct-faq-heading">
+                <button
+                  type="button"
+                  id="ct-faq-btn-5"
+                  class="ct-faq-question"
+                  aria-expanded="false"
+                  aria-controls="ct-faq-panel-5"
+                >
+                  <span class="ct-faq-question-text">¿Puedo cancelar mi reserva?</span>
+                  <span class="ct-faq-icon" aria-hidden="true">+</span>
+                </button>
+              </h3>
+              <div
+                id="ct-faq-panel-5"
+                class="ct-faq-answer"
+                role="region"
+                aria-labelledby="ct-faq-btn-5"
+                aria-hidden="true"
+              >
+                <div class="ct-faq-answer-inner">
+                  <p>
+                    Sí. Puedes cancelar o reprogramar tu ventana de lanzamiento sin penalización hasta 90 días antes del despegue con reembolso del 100 % del depósito fiduciario, o transferir tu plaza acreditada a otra ventana orbital de la temporada 2026-2027.
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -1056,7 +1311,7 @@
             </section>
 
             <!-- Formulario de Manifiesto (envío asíncrono a Formspree vía fetch) -->
-            <form id="manifest-form" action="https://formspree.io/f/mjyyolgb" method="POST">
+            <form id="manifest-form" action="https://formspree.io/f/mjyyarwe" method="POST">
               <div class="form-grid">
                 <div class="form-group">
                   <label class="form-label" for="manifest-name">Nombre Completo del Astronauta *</label>
@@ -1175,7 +1430,7 @@
     </main>
 
     <!-- Modal Dossier de Navegación Interplanetaria (Salto Warp) -->
-    <div id="dossier-modal" class="modal-overlay" role="dialog" aria-modal="true">
+    <aside id="dossier-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div class="modal-box">
         <button id="modal-close-btn" class="modal-close-btn" aria-label="Cerrar expediente">✕</button>
 
@@ -1236,17 +1491,15 @@
           </button>
         </div>
       </div>
-    </div>
+    </aside>
 
     <!-- [AJUSTE HERO] Ficha emergente del cuerpo celeste (se abre desde .planet-btn) -->
-    <div id="planet-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Ficha del cuerpo celeste" aria-hidden="true">
+    <aside id="planet-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Ficha del cuerpo celeste" aria-hidden="true">
       <div class="modal-box planet-box">
         <button id="planet-modal-close" class="modal-close-btn" aria-label="Cerrar ficha planetaria">✕</button>
         <div class="planet-visual">
-          <!-- Sin src inicial: script.js asigna la imagen al abrir la ficha.
-               Evita descargar 239KB en la carga (el overlay está en el
-               viewport aunque esté oculto, así que loading="lazy" no basta). -->
-          <img id="planet-modal-img" alt="Imagen real del cuerpo celeste seleccionado (NASA)" width="640" height="360" decoding="async" />
+          <!-- Sin src inicial: script.js asigna la imagen al abrir la ficha. -->
+          <img id="planet-modal-img" alt="Imagen real del cuerpo celeste seleccionado (NASA)" width="640" height="360" loading="lazy" decoding="async" />
         </div>
         <div class="modal-block">
           <div class="telemetry-text modal-kicker">FICHA CELESTE · CATÁLOGO COSMOS TOUR</div>
@@ -1282,15 +1535,15 @@
           <a href="#destinos" class="btn-primary btn-cta-md" id="planet-modal-cta">Ver Rutas Disponibles</a>
         </div>
       </div>
-    </div>
+    </aside>
 
     <!-- [AJUSTE MIRADOR] Ficha emergente de los POIs del Mirador Estelar (constelaciones) -->
-    <div id="poi-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Ficha celeste" aria-hidden="true">
+    <aside id="poi-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Ficha celeste" aria-hidden="true">
       <div class="modal-box poi-box">
         <button id="poi-modal-close" class="modal-close-btn" aria-label="Cerrar ficha celeste">✕</button>
         <div class="poi-visual">
           <!-- Sin src inicial: se asigna al abrir la ficha (ahorra 65KB). -->
-          <img id="poi-modal-img" alt="Imagen del punto de interés celeste (NASA)" width="640" height="360" decoding="async" />
+          <img id="poi-modal-img" alt="Imagen del punto de interés celeste (NASA)" width="640" height="360" loading="lazy" decoding="async" />
         </div>
         <div class="modal-block">
           <div class="telemetry-text modal-kicker">ARCHIVO CELESTE · MIRADOR ESTELAR</div>
@@ -1303,7 +1556,7 @@
           <button type="button" class="btn-secondary btn-cta-md" id="poi-modal-done">Cerrar Archivo</button>
         </div>
       </div>
-    </div>
+    </aside>
 
         <!-- [AJUSTE FOOTER] Footer comercial profesional: banda CTA + 4 columnas + legal -->
     <footer class="site-footer">
@@ -1390,7 +1643,7 @@
       </div>
     </footer>
 
-    <!-- Enlace a script nativo Vanilla JavaScript -->
+    <!-- Enlaces a scripts nativos Vanilla JavaScript ES6+ (carga diferida sin bloqueo) -->
     <script src="script.js" defer></script>
   </body>
 </html>
